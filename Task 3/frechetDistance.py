@@ -32,7 +32,10 @@ def computeOptimalPath(matrix, seriesA, seriesB):
     assignment = []
     n = len(matrix) - 1
     m = len(matrix[0]) - 1
-    while n > 0 or m > 0:
+    lastPoint = [seriesA[-1], seriesB[-1]]
+    assignment.append(lastPoint)
+    histogram_input.append(compute_distance(lastPoint))
+    while n > 1 or m > 1:
         if n == 0:
             point = [seriesA[0], seriesB[m-1]]
             m -= 1

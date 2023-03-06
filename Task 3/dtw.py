@@ -3,10 +3,7 @@ import math
 import csv
 
 # input: array of 2 tuples, [(x1, y1), (x2, y2)]
-# output: returns the squared distance between them
-def compute_distance_squared(pts):
-    return ((pts[0][0] - pts[1][0])*(pts[0][0] - pts[1][0])) + ((pts[0][1] - pts[1][1])*(pts[0][1] - pts[1][1]))
-
+# output: returns the distance between the 2 points
 def compute_distance(pts):
     return math.sqrt(((pts[0][0] - pts[1][0])*(pts[0][0] - pts[1][0])) + ((pts[0][1] - pts[1][1])*(pts[0][1] - pts[1][1])))
 
@@ -21,7 +18,7 @@ def dtw(seriesA: list[(int, int)], seriesB: list[(int, int)]):
     
     for i in range(1, lengthA + 1):
         for j in range(1, lengthB + 1):
-            dist = compute_distance_squared([seriesA[i-1], seriesB[j-1]])
+            dist = compute_distance([seriesA[i-1], seriesB[j-1]]) ** 2
             minimum = min(matrix[i-1][j], matrix[i][j-1], matrix[i-1][j-1])
             matrix[i][j] = dist + minimum
     return matrix[-1][-1], matrix
@@ -31,7 +28,10 @@ def computeOptimalPath(matrix, seriesA, seriesB):
     histogram_input = []
     n = len(matrix) - 1
     m = len(matrix[0]) - 1
-    while n > 0 or m > 0:
+    lastPoint = [seriesA[-1], seriesB[-1]]
+    assignment.append(lastPoint)
+    histogram_input.append(compute_distance(lastPoint) ** 2)
+    while n > 1 or m > 1:
         if n == 0:
             point = [seriesA[0], seriesB[m-2]]
             m -= 1
@@ -51,7 +51,7 @@ def computeOptimalPath(matrix, seriesA, seriesB):
                 point = [seriesA[n-1], seriesB[m-2]]
                 m -= 1
         assignment.append(point)
-        histogram_input.append(compute_distance_squared(point))
+        histogram_input.append(compute_distance(point) ** 2)
     assignment.reverse()
     return assignment, histogram_input
 
@@ -94,13 +94,14 @@ traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 # distance, matrix = frechetDistance(traj1, traj2)
 # path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
 
+print("previous: ", 6.050266587370012)
 distance, matrix = dtw(traj1, traj2)
 print(distance)
 path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
 print(sum(histogram_input))
 path_distance = 0
 for j in range(len(path)):
-    path_distance += compute_distance_squared(path[j])
+    path_distance += compute_distance(path[j]) ** 2
 print(path_distance)
 
 # trajectory pair 2
