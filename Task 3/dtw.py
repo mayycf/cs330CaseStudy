@@ -18,7 +18,7 @@ def dtw(seriesA: list[(int, int)], seriesB: list[(int, int)]):
     
     for i in range(1, lengthA + 1):
         for j in range(1, lengthB + 1):
-            dist = compute_distance([seriesA[i-1], seriesB[j-1]]) ** 2
+            dist = compute_distance([seriesA[i-1], seriesB[j-1]])
             minimum = min(matrix[i-1][j], matrix[i][j-1], matrix[i-1][j-1])
             matrix[i][j] = dist + minimum
     return matrix[-1][-1], matrix
@@ -30,7 +30,7 @@ def computeOptimalPath(matrix, seriesA, seriesB):
     m = len(matrix[0]) - 1
     lastPoint = [seriesA[-1], seriesB[-1]]
     assignment.append(lastPoint)
-    histogram_input.append(compute_distance(lastPoint) ** 2)
+    histogram_input.append(compute_distance(lastPoint))
     while n > 1 or m > 1:
         if n == 0:
             point = [seriesA[0], seriesB[m-2]]
@@ -51,7 +51,7 @@ def computeOptimalPath(matrix, seriesA, seriesB):
                 point = [seriesA[n-1], seriesB[m-2]]
                 m -= 1
         assignment.append(point)
-        histogram_input.append(compute_distance(point) ** 2)
+        histogram_input.append(compute_distance(point))
     assignment.reverse()
     return assignment, histogram_input
 
@@ -65,6 +65,7 @@ def getPoints(file, x):
                 points.append([float(row["x"]), float(row["y"])])
     return points
 
+### Testing ###
 # a = [(0.0, 0.0), (1.0, 0.0), (2.0, 1.0), (2.0, 2.0)]
 # b = [(0.0, 0.0), (1.0, 0.0), (2.0, 1.0), (2.0, 2.0)]
 # a = [(1, 0), (2, 0), (4, 2), (4, 3), (4, 3)]
@@ -72,43 +73,34 @@ def getPoints(file, x):
 # distance, matrix = dtw(a, b)
 # print(matrix)
 # print(distance)
-# path = computeOptimalPath(matrix, a, b)
+# path, histogram_input = computeOptimalPath(matrix, a, b)
+# print(sum(histogram_input))
 # path_distance = 0
 # for j in range(len(path)):
-#     path_distance += compute_distance_squared(path[j])
+#     path_distance += compute_distance(path[j])
 # print(path)
 # print(path_distance)
 
 
-### DTW DISTANCE HISTOGRAM ###
+
+###### DTW DISTANCE HISTOGRAM ######
 
 # inputs
-traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
-traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
+# traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
+# traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 # traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
 # traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
 # traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
 # traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
 # trajectory pair 1
-# distance, matrix = frechetDistance(traj1, traj2)
+# distance, matrix = dtw(traj1, traj2)
 # path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
 
-print("previous: ", 6.050266587370012)
-distance, matrix = dtw(traj1, traj2)
-print(distance)
-path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
-print(sum(histogram_input))
-path_distance = 0
-for j in range(len(path)):
-    path_distance += compute_distance(path[j]) ** 2
-print(path_distance)
-
 # trajectory pair 2
-# distance, matrix = frechetDistance(traj3, traj4)
+# distance, matrix = dtw(traj3, traj4)
 # path, histogram_input = computeOptimalPath(matrix, traj3, traj4)
 
 # trajectory pair 3
-# distance, matrix = frechetDistance(traj5, traj6)
+# distance, matrix = dtw(traj5, traj6)
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
-    
