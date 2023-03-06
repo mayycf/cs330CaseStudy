@@ -1,8 +1,9 @@
 import csv
 
-def getPoints(x):
+# file input example: './geolife-cars.csv'
+def getPoints(file, x):
     points = []
-    with open('./geolife-cars.csv', newline='') as csvfile:
+    with open(file, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if(row['id_'] == x):
