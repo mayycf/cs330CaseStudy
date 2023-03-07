@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib
+import csv
 from epsilon import d
 
 def ts_greedy(T,e):
@@ -38,16 +39,27 @@ def ts_greedy(T,e):
     # print("Final :", final)
     return final
 
+def getPoints(x):
+    points = []
+    with open("geolife-cars.csv", newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if(row['id_'] == x):
+                points.append([float(row["x"]), float(row["y"])])
+    return points
+
 if __name__ == "__main__" :
     # Test Cases:
     # T = [(1,1), (1.3,2), (2, 1.2), (3,1)]
     # e = 0.5
     # T = [(1,1), (1.3,2), (3,1)]
     # e = 0.5
-    T = [(1,1),(2,2),(3,3),(4,3),(5,3),(6,3),(7,2),(7,1),(7,0),(8,-1)]
-    e = 1.2
+    # T = [(1,1),(2,2),(3,3),(4,3),(5,3),(6,3),(7,2),(7,1),(7,0),(8,-1)]
+    # e = .7
     # T = [(0, 0), (1, 1), (2, 2), (3, 2), (4, 3), (5, 4), (6, 5), (7, 6), (8, 7), (9, 8)]
     # e = 1
+    T = getPoints("128-20080503104400")
+    e = 0
 
     # change font size
     matplotlib.rcParams.update({'font.size': 7})
@@ -62,7 +74,9 @@ if __name__ == "__main__" :
     splot.plot(x, y, linewidth=4, label='n={}, no simplification'.format(len(T)))
 
     simplified = ts_greedy(T, e)
-    print("here's simplified", simplified)
+    # print("here's simplified", simplified)
+    print("original", len(T))
+    print("number of points: ", len(simplified))
     x = [i[0] for i in simplified]
     y = [i[1] for i in simplified]
     splot.plot(x, y, linestyle='dashed', linewidth=2.5, label='n={}, ε={}'.format(len(T), e))
@@ -88,3 +102,9 @@ if __name__ == "__main__" :
     plt.show()
  
     print(ts_greedy(T,e))
+    
+    # TESTS:
+    # "128-20080503104400" e = 0, 319 points
+    # "128-20080503104400" e = .03, 18 points 
+    # "128-20080503104400" e = .1, 14 points 
+    # "128-20080503104400" e = .3, 5 points
