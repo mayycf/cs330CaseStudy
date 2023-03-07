@@ -1,5 +1,6 @@
 import math
 import csv
+import matplotlib.pyplot as plt
 
 # input: array of 2 tuples, [(x1, y1), (x2, y2)]
 # output: returns the distance between them
@@ -69,6 +70,10 @@ def getPoints(file, x):
                 points.append([float(row["x"]), float(row["y"])])
     return points
 
+
+
+
+
 ### TESTING ###
 # A1 =[(1,1), (2,1), (2,2)]
 # B1 =[(2,2), (0,1), (2,4)]
@@ -99,8 +104,8 @@ def getPoints(file, x):
 # traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 # traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
 # traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
-# traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
-# traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
+traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
+traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
 # trajectory pair 1
 # distance, matrix = frechetDistance(traj1, traj2)
@@ -113,3 +118,16 @@ def getPoints(file, x):
 # trajectory pair 3
 # distance, matrix = frechetDistance(traj5, traj6)
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
+
+def createHist(trajOne, trajTwo):
+    nbins = 20
+    distance, matrix = frechetDistance(trajOne, trajTwo)
+    path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
+    plt.hist(histogram_input, edgecolor = 'white', linewidth = 1.2)
+    plt.style.use('ggplot')
+    plt.title("Frechet Distance")
+    plt.xlabel('Distance (km)')
+    plt.ylabel('Frequency')
+    plt.show()
+
+# createHist(traj5, traj6)

@@ -1,6 +1,7 @@
 # NEED TO CHANGE, DIFFERENT FROM ASSIGNMENT 4
 import math
 import csv
+import matplotlib.pyplot as plt
 
 # input: array of 2 tuples, [(x1, y1), (x2, y2)]
 # output: returns the distance between the 2 points
@@ -88,8 +89,8 @@ def getPoints(file, x):
 # inputs
 # traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
 # traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
-# traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
-# traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
+traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
+traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
 # traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
 # traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
@@ -104,3 +105,16 @@ def getPoints(file, x):
 # trajectory pair 3
 # distance, matrix = dtw(traj5, traj6)
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
+
+def createHist(trajOne, trajTwo):
+    nbins = 20
+    distance, matrix = dtw(trajOne, trajTwo)
+    path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
+    plt.hist(histogram_input, bins = nbins, edgecolor = 'white', linewidth = 1.2)
+    plt.style.use('ggplot')
+    plt.title("Dynamic Time Warping (DTW)")
+    plt.xlabel('Distance (km)')
+    plt.ylabel('Frequency')
+    plt.show()
+
+# createHist(traj3, traj4)
