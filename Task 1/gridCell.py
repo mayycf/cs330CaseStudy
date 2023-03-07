@@ -1,7 +1,22 @@
-import csv
-import math
+### Algorithm ###
+# iterate through all the points, check if a point is within a certain cell
+# in a matrix, keep track of how many points are in each cell > choose cell size
+# use those matrix values to determine hubs
+# organize grid within 0.25 cells, determine if points are in certain ranges based on cell
+
+# choose highest density one - O(N), number of grid cells
+# while loop, candidate set of hubs - all grid cells
+# slowly add hubs, select cell with maximum density
+# eliminate the cells that are within r
+
+import csv, math
 import queue, heapq
 import matplotlib.pyplot as plt
+
+# input: array of 2 tuples, [(x1, y1), (x2, y2)]
+# output: returns the distance between the 2 points
+def compute_distance(pts):
+    return math.sqrt(((pts[0][0] - pts[1][0])*(pts[0][0] - pts[1][0])) + ((pts[0][1] - pts[1][1])*(pts[0][1] - pts[1][1])))
 
 # to parse file
 def getPoints(file):
@@ -23,7 +38,6 @@ def densityMatrix(pts):
         denseMatrix[x][y] += 1
     return denseMatrix
 
-# not really a necessary function
 def density(matrix, point):
     x = math.floor(point[0] * 4) + 419
     y = math.floor(point[1] * 4) + 419
@@ -49,19 +63,22 @@ def hubs(matrix, k, radius):
         numHubs += 1
         
         # calculate bounds
-        xmin = cell[0] - (radius*4)
-        xmax = cell[0] + (radius*4)
-        ymin = cell[1] - (radius*4)
-        ymax = cell[1] + (radius*4)
+        # xmin = cell[0] - (radius*4)
+        # xmax = cell[0] + (radius*4)
+        # ymin = cell[1] - (radius*4)
+        # ymax = cell[1] + (radius*4)
         
         # index
         i = 0
+        
         while i < len(PQ):
             x = PQ[i][1][0]
             y = PQ[i][1][1]
-            if x >= xmin and x <= xmax and y >= ymin and y <= ymax:
+            # if x >= xmin and x <= xmax and y >= ymin and y <= ymax:
+            if compute_distance([(x, y), cell]) <= radius*4:
                 PQ.pop(i)
-            i = i + 1
+            else:
+                i = i + 1
         heapq.heapify(PQ)
     return hubList
     
@@ -72,54 +89,17 @@ full_pts = getPoints('./geolife-cars.csv') # minimum = -103.532808, maximum = 96
 # thirty_pts = getPoints('./geolife-cars-thirty-percent.csv')
 # sixty_pts = getPoints('./geolife-cars-sixty-percent.csv')
 
+### FIND DENSITY HUBS ###
 matrix = densityMatrix(full_pts)
-print(hubs(matrix, 10, 10))
+hubsList = hubs(matrix, 10, 10)
+print(hubsList)
+# distances = []
+# for i in range(len(hubsList)):
+#     for j in range(len(hubsList)):
+#         if i != j:
+#             distances.append(compute_distance([hubsList[i][1], hubsList[j][1]]))
+# print(min(distances))
 
 # PLOTTING
-# plt.scatter([item[0] for item in full_pts], [item[1] for item in full_pts], c = "blue", s = 0.01)
+# plt.scatter([item[0] for item in full_pts], [item[1] for item in full_pts], c = "blue", s = 0.01, alpha = 0.5)
 # plt.show()
-
-# def density(point, matrix, radius):
-#     x = math.floor(point[0] * 4) + 419
-#     y = math.floor(point[1] * 4) + 419
-#     xmin = (x - radius) * 4
-#     xmax = (x + radius) * 4
-#     ymin = (y - radius) * 4
-#     ymax = (y + radius) * 4
-#     count = 0
-#     for i in range(xmin, xmax):
-#         for j in range(ymin, ymax):
-#             if compute_distance([[i, j], point])
-#     return matrix[x][y]
-
-# x, y = p
-#     xmin = max(0, x - radius)
-#     xmax = min(matrix.shape[0], x + radius + 1)
-#     ymin = max(0, y - radius)
-#     ymax = min(matrix.shape[1], y + radius + 1)
-
-#     count = 0
-#     for i in range(xmin, xmax):
-#         for j in range(ymin, ymax):
-#             if ((i - x) ** 2 + (j - y) ** 2) ** 0.5 <= radius:
-#                 count += matrix[i, j]
-
-#     area = (2 * radius + 1) ** 2
-#     return count / area
-
-# matrix = densityMatrix(full_pts)
-# print(matrix)
-
-# Algorithm
-# iterate through all the points, check if a point is within a certain cell
-# in a matrix, keep track of how many points are in each cell > choose cell size
-# use those matrix values to determine hubs
-# organize grid within 0.25 cells, determine if points are in certain ranges based on cell
-# max 50, min -50
-
-# choose highest density one - O(N), number of grid cells
-# while loop, candidate set of hubs - all grid cells
-# slowly add hubs, select cell with maximum density
-# eliminate the cells that are within r
-        
-        
