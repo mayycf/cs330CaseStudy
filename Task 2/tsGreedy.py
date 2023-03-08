@@ -59,7 +59,7 @@ def plotit(T, e):
     splot = plt.subplot()
     x = [i[0] for i in T]
     y = [i[1] for i in T]
-    splot.plot(x, y, linewidth=4, label='n={}, no simplification'.format(len(T)))
+    splot.plot(x, y, linewidth = 2, label='n={}, no simplification'.format(len(T)))
 
     simplified = ts_greedy(T, e)
     # print("here's simplified", simplified)
@@ -67,7 +67,7 @@ def plotit(T, e):
     print("number of points: ", len(simplified))
     x = [i[0] for i in simplified]
     y = [i[1] for i in simplified]
-    splot.plot(x, y, linestyle='dashed', linewidth=2.5, label='n={}, ε={}'.format(len(T), e))
+    splot.plot(x, y, marker = "o", linestyle='dashed', linewidth = 1.5, label='n={}, ε={}'.format(len(T), e))
 
     # plot each epsilon value in its own plot
     # for e in sys.argv[1:]:
@@ -83,7 +83,7 @@ def plotit(T, e):
 
     # show legend and add to figure
     splot.legend()
-    splot.set_title("bruh")
+    splot.set_title("GeoLife Trajectory Simplification")
     figure.add_subplot(splot)
 
     # show the figure
