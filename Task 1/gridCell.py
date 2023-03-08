@@ -30,6 +30,7 @@ def getPoints(file):
 # pre-processing
 # minimum: -105, maximum: 105 -> 0.25 x 0.25 km grids represented by the matrix 
 # minimum: -420, maximum: 420 -> n x m matrix where n = m = 840
+# root 2 by the radius, grid cell length will be about 0.35, 0.25 for radius
 def densityMatrix(pts):
     denseMatrix = [ [0]*840 for i in range(840) ]
     for point in pts:
@@ -39,34 +40,48 @@ def densityMatrix(pts):
     return denseMatrix
 
 def density(matrix, point):
-    x = math.floor(point[0] * 4) + 419
-    y = math.floor(point[1] * 4) + 419
-    return matrix[x][y]
+    x = point[0]
+    y = point[1]
+    count = matrix[x][y]
+    # if x > 0:
+    #     count += matrix[x-1][y]
+    #     if y < 839:
+    #         count += matrix[x-1][y+1]
+    #     if y > 0:
+    #         count += matrix[x-1][y-1]
+    # if x < 839:
+    #     count += matrix[x+1][y]
+    #     if y < 839:
+    #         count += matrix[x+1][y+1]
+    #     if y > 0:
+    #         count += matrix[x+1][y-1]
+    # if y < 839:
+    #     count += matrix[x][y+1]
+    # if y > 0:
+    #     count += matrix[x][y-1]
+    return count
 
 def hubs(matrix, k, radius):
     PQ = []
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
-            if matrix[i][j] != 0:
+            dense = 0
+            dense = density(matrix, [i, j])
+            if dense != 0:
                 # priority based on negative density in order to sort correctly!
-                heapq.heappush(PQ, (-matrix[i][j], [i, j]))
+                heapq.heappush(PQ, (-dense, [i, j]))
                 
     numHubs = 0
     hubList = []
     while numHubs < k:
-        density, cell = heapq.heappop(PQ)
+        neighbors, cell = heapq.heappop(PQ)
         
         # convert cell back to standard point
         xnorm = (cell[0] - 419)/4
         ynorm = (cell[1] - 419)/4
-        hubList.append([-density, (xnorm, ynorm)])
+        # hubList.append([-neighbors, (xnorm, ynorm)])
+        hubList.append((xnorm, ynorm))
         numHubs += 1
-        
-        # calculate bounds
-        # xmin = cell[0] - (radius*4)
-        # xmax = cell[0] + (radius*4)
-        # ymin = cell[1] - (radius*4)
-        # ymax = cell[1] + (radius*4)
         
         # index
         i = 0
@@ -90,14 +105,18 @@ full_pts = getPoints('./geolife-cars.csv') # minimum = -103.532808, maximum = 96
 # sixty_pts = getPoints('./geolife-cars-sixty-percent.csv')
 
 ### FIND DENSITY HUBS ###
+# test values: k = 5, 10, 20, 40 and r = 2km
 matrix = densityMatrix(full_pts)
-hubsList = hubs(matrix, 10, 10)
+hubsList = hubs(matrix, 40, 2)
 print(hubsList)
+
+# k = 10, r = 8km
+
 # distances = []
 # for i in range(len(hubsList)):
 #     for j in range(len(hubsList)):
 #         if i != j:
-#             distances.append(compute_distance([hubsList[i][1], hubsList[j][1]]))
+#             distances.append(compute_distance([hubsList[i], hubsList[j]]))
 # print(min(distances))
 
 # PLOTTING
