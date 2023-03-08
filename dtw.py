@@ -87,12 +87,12 @@ def getPoints(file, x):
 ###### DTW DISTANCE HISTOGRAM ######
 
 # inputs
-# traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
-# traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
+traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
+traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 # traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
 # traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
-traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
-traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
+# traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
+# traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
 # trajectory pair 1
 # distance, matrix = dtw(traj1, traj2)
@@ -106,30 +106,29 @@ traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 # distance, matrix = dtw(traj5, traj6)
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
 
-# simplified by 0.03
-simtraj503 = ts_greedy(traj5, 0.03)
-simtraj603 = ts_greedy(traj6, 0.03)
+# # simplified by 0.03
+# simtraj503 = ts_greedy(traj5, 0.03)
+# simtraj603 = ts_greedy(traj6, 0.03)
 
-# simplified by 0.1 
-simtraj51 = ts_greedy(traj5, 0.1)
-simtraj61 = ts_greedy(traj6, 0.1)
+# # simplified by 0.1 
+# simtraj51 = ts_greedy(traj5, 0.1)
+# simtraj61 = ts_greedy(traj6, 0.1)
 
-# simplified by 0.3 
-simtraj53 = ts_greedy(traj5, 0.3)
-simtraj63 = ts_greedy(traj6, 0.3)
+# # simplified by 0.3 
+# simtraj53 = ts_greedy(traj5, 0.3)
+# simtraj63 = ts_greedy(traj6, 0.3)
 
 def createHist(trajOne, trajTwo):
     nbins = 20
-    distance, matrix = dtw(trajOne, trajTwo)
     path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
     plt.hist(histogram_input, bins = nbins, edgecolor = 'white', linewidth = 1.2)
     plt.style.use('ggplot')
-    plt.title("Dynamic Time Warping (DTW)")
+    plt.title(r'$E_{avg}$ Edge Length (DTW)')
     plt.xlabel('Distance (km)')
     plt.ylabel('Frequency')
     plt.show()
 
-# createHist(traj3, traj4)
+createHist(traj1, traj2)
 # createHist(simtraj503, simtraj603)
 # createHist(simtraj51, simtraj61)
 # createHist(simtraj53, simtraj63)
