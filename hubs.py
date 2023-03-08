@@ -59,7 +59,7 @@ class Hub:
         hubList = []
         while numHubs < k:
             neighbors, cell = heapq.heappop(PQ)
-            hubList.append((cell[0], cell[1]))
+            hubList.append([neighbors, (cell[0], cell[1])])
             numHubs += 1
             # index for PQ
             i = 0
