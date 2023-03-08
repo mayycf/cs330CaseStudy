@@ -38,10 +38,10 @@ def computeOptimalPath(matrix, seriesA, seriesB):
     histogram_input.append(compute_distance(lastPoint))
     while n > 1 or m > 1:
         if n == 0:
-            point = [seriesA[0], seriesB[m-1]]
+            point = [seriesA[0], seriesB[m-2]]
             m -= 1
         elif m == 0:
-            point = [seriesA[n-1], seriesB[0]]
+            point = [seriesA[n-2], seriesB[0]]
             n -= 1
         else:
             minimum = min(matrix[n-1][m-1], matrix[n-1][m], matrix[n][m-1])
@@ -123,6 +123,9 @@ def createHist(trajOne, trajTwo):
     nbins = 20
     distance, matrix = fd(trajOne, trajTwo)
     path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
+    print(histogram_input[:10])
+    print(distance)
+    print(len(histogram_input))
     plt.hist(histogram_input, edgecolor = 'white', linewidth = 1.2)
     plt.style.use('ggplot')
     plt.title(r'$E_{max}$ Edge Length (Frechet Distance)')
