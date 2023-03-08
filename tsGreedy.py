@@ -62,24 +62,13 @@ def plotit(T, e):
     splot.plot(x, y, linewidth = 2, label='n={}, no simplification'.format(len(T)))
 
     simplified = ts_greedy(T, e)
-    # print("here's simplified", simplified)
-    print("original", len(T))
-    print("number of points: ", len(simplified))
     x = [i[0] for i in simplified]
     y = [i[1] for i in simplified]
-    splot.plot(x, y, marker = "o", linestyle='dashed', linewidth = 1.5, label='n={}, ε={}'.format(len(T), e))
-
-    # plot each epsilon value in its own plot
-    # for e in sys.argv[1:]:
-    #     epsilon = float(e)
-    #     points = [Point(pair[0], pair[1]) for pair in zip(x, y)]
-    #     simplified = rdp(points, epsilon)
-
-    #     x = [i.x for i in simplified]
-    #     y = [i.y for i in simplified]
-
-    #     splot.plot(x, y, linestyle=next(ls), linewidth=2.5,
-    #                label='i={}, ε={}'.format(i, e))
+    splot.plot(x, y, marker = "o", markersize = 3.5, linestyle='dashed', linewidth = 1.5, label='n={}, ε={}'.format(len(T), e))
+    
+     
+    print("This is the length of the original list of points: ", len(T))
+    print("This is the length of the simplified trajectory: ", len(simplified))
 
     # show legend and add to figure
     splot.legend()
@@ -90,21 +79,12 @@ def plotit(T, e):
     plt.show()
 
 if __name__ == "__main__" :
-    # Test Cases:
-    # T = [(1,1), (1.3,2), (2, 1.2), (3,1)]
-    # e = 0.5
-    # T = [(1,1), (1.3,2), (3,1)]
-    # e = 0.5
-    # T = [(1,1),(2,2),(3,3),(4,3),(5,3),(6,3),(7,2),(7,1),(7,0),(8,-1)]
-    # e = .7
-    # T = [(0, 0), (1, 1), (2, 2), (3, 2), (4, 3), (5, 4), (6, 5), (7, 6), (8, 7), (9, 8)]
-    # e = 1
     T = getPoints("128-20080503104400")
     e = 0
 
     plotit(T, e)
     
-    print(ts_greedy(T,e))
+    # print(ts_greedy(T,e))
     
     # TESTS:
     # "128-20080503104400" e = 0, 319 points
