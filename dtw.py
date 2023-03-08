@@ -1,4 +1,3 @@
-# NEED TO CHANGE, DIFFERENT FROM ASSIGNMENT 4
 import math
 import csv
 import matplotlib.pyplot as plt
