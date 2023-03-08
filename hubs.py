@@ -36,7 +36,7 @@ class Hub:
         self.matrix = matrix
         
 # pre-processing
-# for data set -> minimum = -103.532808, maximum = 96.237468
+# for data set -> minimum = -103.532808, maximum = 96.237468 -> rounded up to 105
 # root 2 by the radius, grid cell length will be about 0.35, 0.25 for radius
     def densityPre(self):
         factor = 1/(self.r_n * math.sqrt(2))
@@ -86,17 +86,17 @@ class Hub:
 
 if __name__ == "__main__" : 
     ### INPUT ###
-    # full_pts = getPoints('./geolife-cars.csv') 
+    full_pts = getPoints('./geolife-cars.csv')
     # ten_pts = getPoints('./geolife-cars-ten-percent.csv')
     # thirty_pts = getPoints('./geolife-cars-thirty-percent.csv')
     # sixty_pts = getPoints('./geolife-cars-sixty-percent.csv')
 
     ### FIND DENSITY HUBS ###
     # test values: k = 5, 10, 20, 40 and r = 2km
-    # hub_full = Hub(full_pts, 0.177)
-    # hub_full.densityPre()
-    # hubsList = hub_full.hubs(10, 10)
-    # print(hubsList)
+    hub_full = Hub(full_pts, 0.25)
+    hub_full.densityPre()
+    hubsList = hub_full.hubs(10, 10)
+    print(hubsList)
 
     # test values: k = 10, r = 8km
     # hub_ten = Hub(ten_pts, 0.177)

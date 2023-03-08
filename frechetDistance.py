@@ -9,7 +9,7 @@ def compute_distance(pts):
 
 # finds the frechet distance between two trajectories
 # output: returns a tuple of (frechet distance, DP matrix)
-def frechetDistance(seriesA: list[(int, int)], seriesB: list[(int, int)]):
+def fd(seriesA: list[(int, int)], seriesB: list[(int, int)]):
     lengthA = len(seriesA)
     lengthB = len(seriesB)
     matrix = [ [0]*(lengthB + 1) for i in range(lengthA + 1) ]
@@ -77,12 +77,12 @@ def getPoints(file, x):
 ### TESTING ###
 # A1 =[(1,1), (2,1), (2,2)]
 # B1 =[(2,2), (0,1), (2,4)]
-# print(frechetDistance(A1, B1))
+# print(fd(A1, B1))
 # Answer: 2.0
 
 # A2 = [[0.0, 0.0], [1.0, 0.0], [2.0, 0.0], [3.0, 0.0], [4.0, 0.0]]
 # B2 = [[0.0, 1.0], [1.0, 1.1], [2.0, 1.2], [3.0, 1.1], [4.0, 1.0], [4.0, 1.0]]
-# print(frechetDistance(A2, B2))
+# print(fd(A2, B2))
 # Answer: 1.2
 
 # distance, matrix = frechetDistance(A2, B2)
@@ -108,20 +108,20 @@ traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 # traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
 # trajectory pair 1
-# distance, matrix = frechetDistance(traj1, traj2)
+# distance, matrix = fd(traj1, traj2)
 # path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
 
 # trajectory pair 2
-# distance, matrix = frechetDistance(traj3, traj4)
+# distance, matrix = fd(traj3, traj4)
 # path, histogram_input = computeOptimalPath(matrix, traj3, traj4)
 
 # trajectory pair 3
-# distance, matrix = frechetDistance(traj5, traj6)
+# distance, matrix = fd(traj5, traj6)
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
 
 def createHist(trajOne, trajTwo):
     nbins = 20
-    distance, matrix = frechetDistance(trajOne, trajTwo)
+    distance, matrix = fd(trajOne, trajTwo)
     path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
     plt.hist(histogram_input, edgecolor = 'white', linewidth = 1.2)
     plt.style.use('ggplot')
