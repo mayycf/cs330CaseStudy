@@ -118,7 +118,7 @@ simtraj61 = ts_greedy(traj2, 0.1)
 # # simplified by 0.3 
 simtraj53 = ts_greedy(traj1, 0.3)
 simtraj63 = ts_greedy(traj2, 0.3)
-print(simtraj53)
+
 
 def createHist(trajOne, trajTwo):
     nbins = 20
