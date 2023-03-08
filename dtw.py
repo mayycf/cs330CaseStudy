@@ -2,6 +2,7 @@
 import math
 import csv
 import matplotlib.pyplot as plt
+from tsGreedy import ts_greedy
 
 # input: array of 2 tuples, [(x1, y1), (x2, y2)]
 # output: returns the distance between the 2 points
@@ -89,10 +90,10 @@ def getPoints(file, x):
 # inputs
 # traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
 # traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
-traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
-traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
-# traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
-# traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
+# traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
+# traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
+traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
+traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
 # trajectory pair 1
 # distance, matrix = dtw(traj1, traj2)
@@ -106,6 +107,18 @@ traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
 # distance, matrix = dtw(traj5, traj6)
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
 
+# simplified by 0.03
+simtraj503 = ts_greedy(traj5, 0.03)
+simtraj603 = ts_greedy(traj6, 0.03)
+
+# simplified by 0.1 
+simtraj51 = ts_greedy(traj5, 0.1)
+simtraj61 = ts_greedy(traj6, 0.1)
+
+# simplified by 0.3 
+simtraj53 = ts_greedy(traj5, 0.3)
+simtraj63 = ts_greedy(traj6, 0.3)
+
 def createHist(trajOne, trajTwo):
     nbins = 20
     distance, matrix = dtw(trajOne, trajTwo)
@@ -118,3 +131,6 @@ def createHist(trajOne, trajTwo):
     plt.show()
 
 # createHist(traj3, traj4)
+# createHist(simtraj503, simtraj603)
+# createHist(simtraj51, simtraj61)
+# createHist(simtraj53, simtraj63)
