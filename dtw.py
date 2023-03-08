@@ -19,7 +19,7 @@ def dtw(seriesA: list[(int, int)], seriesB: list[(int, int)]):
     
     for i in range(1, lengthA + 1):
         for j in range(1, lengthB + 1):
-            dist = compute_distance([seriesA[i-1], seriesB[j-1]])
+            dist = compute_distance([seriesA[i-1], seriesB[j-1]]) ** 2
             minimum = min(matrix[i-1][j], matrix[i][j-1], matrix[i-1][j-1])
             matrix[i][j] = dist + minimum
     return matrix[-1][-1], matrix
@@ -97,6 +97,7 @@ traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 # trajectory pair 1
 # distance, matrix = dtw(traj1, traj2)
 # path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
+# dtw_distance = distance / len(path)
 
 # trajectory pair 2
 # distance, matrix = dtw(traj3, traj4)

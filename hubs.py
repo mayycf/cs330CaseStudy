@@ -1,13 +1,3 @@
-### Algorithm ###
-# iterate through all the points, check if a point is within a certain cell
-# in a matrix, keep track of how many points are in each cell > choose cell size
-# use those matrix values to determine hubs
-
-# choose highest density one - O(N), number of grid cells
-# while loop, candidate set of hubs - all grid cells
-# slowly add hubs, select cell with maximum density
-# eliminate the cells that are within r
-
 import csv, math
 import queue, heapq
 import matplotlib.pyplot as plt
@@ -37,7 +27,6 @@ class Hub:
         
 # pre-processing
 # for data set -> minimum = -103.532808, maximum = 96.237468 -> rounded up to 105
-# root 2 by the radius, grid cell length will be about 0.35, 0.25 for radius
     def densityPre(self):
         factor = 1/(self.r_n * math.sqrt(2))
         bound = math.ceil(factor * 105)
@@ -119,7 +108,3 @@ if __name__ == "__main__" :
     # PLOTTING
     # plt.scatter([item[0] for item in full_pts], [item[1] for item in full_pts], c = "blue", s = 0.01, alpha = 0.5)
     # plt.show()
-
-
-### EXTRA ###
-# print("previous: ", [(-9.0, 3.25), (7.25, 1.0), (20.75, 0.0), (-42.5, -0.25), (-1.25, 13.0), (-43.75, 22.25), (-33.75, 8.75), (10.25, -19.75), (56.5, 11.5), (-23.25, 4.0)])
