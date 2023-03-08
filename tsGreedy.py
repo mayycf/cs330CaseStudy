@@ -79,8 +79,15 @@ def plotit(T, e):
     plt.show()
 
 if __name__ == "__main__" :
-    T = getPoints("128-20080503104400")
-    e = 0
+    # T = getPoints("128-20080503104400")
+    # e = 0.3
+    # T = getPoints("010-20081016113953")
+    # e = 0.03
+    # T = getPoints("115-20080520225850")
+    # e = 0.03
+    T = getPoints("115-20080615225707")
+    e = 0.03
+    
 
     plotit(T, e)
     
