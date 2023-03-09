@@ -125,7 +125,7 @@ if __name__ == "__main__" :
     ###### DTW DISTANCE HISTOGRAMS ######
     
     # DTW trajectory pairs histogram
-    # createHist(traj1, traj2)
+    createHist(traj1, traj2)
     # createHist(traj3, traj4)
     # createHist(traj5, traj6)
 

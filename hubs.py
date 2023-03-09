@@ -46,7 +46,7 @@ class Hub:
         x = math.floor(point[0] * factor) + bound - 1
         y = math.floor(point[1] * factor) + bound - 1
         count = self.matrix[x][y]
-        self.matrix[x][y] = 0
+        # self.matrix[x][y] = 0
         return count
 
     def hubs(self, k, radius):
@@ -80,21 +80,13 @@ if __name__ == "__main__" :
     # ten_pts = getPoints('./geolife-cars-ten-percent.csv')
     # thirty_pts = getPoints('./geolife-cars-thirty-percent.csv')
     # sixty_pts = getPoints('./geolife-cars-sixty-percent.csv')
-    minimum = 0
-    maximum = 0
-    for pt in full_pts:
-        minimum = min(minimum, pt[0], pt[1])
-        maximum = max(maximum, pt[0], pt[1])
-    
-    print(minimum)
-    print(maximum)
 
     ### FIND DENSITY HUBS ###
     # test values: k = 5, 10, 20, 40 and r = 2km
-    # hub_full = Hub(full_pts, 0.25)
-    # hub_full.densityPre()
-    # hubsList = hub_full.hubs(40, 2)
-    # print(hubsList)
+    hub_full = Hub(full_pts, 0.25)
+    hub_full.densityPre()
+    hubsList = hub_full.hubs(40, 2)
+    print(hubsList)
     # print out end time - start time
 
     # test values: k = 10, r = 8km

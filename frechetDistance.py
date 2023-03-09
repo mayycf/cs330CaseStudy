@@ -92,6 +92,6 @@ if __name__ == "__main__" :
     traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
     ### Frechet trajectory pair histograms ###
-    createHist(traj1, traj2)
+    # createHist(traj1, traj2)
     # createHist(traj3, traj4)
-    # createHist(traj5, traj6)
+    createHist(traj5, traj6)
