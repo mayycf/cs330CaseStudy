@@ -86,6 +86,7 @@ if __name__ == "__main__" :
     hub_full.densityPre()
     hubsList = hub_full.hubs(10, 8)
     print(hubsList)
+    # print out end time - start time
 
     # test values: k = 10, r = 8km
     # hub_ten = Hub(ten_pts, 0.177)
