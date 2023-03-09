@@ -108,31 +108,34 @@ traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 # path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
 
 # # simplified by 0.03
-simtraj503 = ts_greedy(traj1, 0.03)
-simtraj603 = ts_greedy(traj2, 0.03)
+simtraj503 = ts_greedy(traj5, 0.03)
+simtraj603 = ts_greedy(traj6, 0.03)
 
 # # simplified by 0.1 
-simtraj51 = ts_greedy(traj1, 0.1)
-simtraj61 = ts_greedy(traj2, 0.1)
+simtraj51 = ts_greedy(traj5, 0.1)
+simtraj61 = ts_greedy(traj6, 0.1)
 
 # # simplified by 0.3 
-simtraj53 = ts_greedy(traj1, 0.3)
-simtraj63 = ts_greedy(traj2, 0.3)
-print(simtraj53)
+simtraj53 = ts_greedy(traj5, 0.3)
+simtraj63 = ts_greedy(traj6, 0.3)
 
 def createHist(trajOne, trajTwo):
     nbins = 20
     distance, matrix = dtw(trajOne, trajTwo)
     path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
     dtw_distance = distance / len(path)
+    print(dtw_distance)
+    print(len(histogram_input))
     plt.hist(histogram_input, bins = nbins, edgecolor = 'white', linewidth = 1.2)
     plt.style.use('ggplot')
-    plt.title(r'$E_{sum}$ Edge Length (DTW)')
+    plt.title(r'$E_{sum}$ (DTW)')
     plt.xlabel('Edge Lengths')
     plt.ylabel('Frequency')
     plt.show()
 
 # createHist(traj1, traj2)
+# createHist(traj3, traj4)
+# createHist(traj5, traj6)
 # createHist(simtraj503, simtraj603)
 # createHist(simtraj51, simtraj61)
 # createHist(simtraj53, simtraj63)
