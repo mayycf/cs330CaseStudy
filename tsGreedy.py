@@ -56,7 +56,7 @@ def plotit(T, e):
     simplified = ts_greedy(T, e)
     x = [i[0] for i in simplified]
     y = [i[1] for i in simplified]
-    splot.plot(x, y, marker = "o", markersize = 3.5, linestyle='dashed', linewidth = 1.5, label='n={}, ε={}'.format(len(T), e))
+    splot.plot(x, y, marker = "o", markersize = 3.5, linestyle='dashed', linewidth = 1.5, label='n={}, ε={}'.format(len(simplified), e))
     
     # Print the points to calculate compression ratio
     print("This is the length of the original list of points: ", len(T))
@@ -66,6 +66,8 @@ def plotit(T, e):
     # show legend and add to figure
     splot.legend()
     splot.set_title("GeoLife Trajectory Simplification")
+    plt.xlabel("Longitude (in km)")
+    plt.ylabel("Latitude (in km)")
     figure.add_subplot(splot)
 
     # show the figure
@@ -73,7 +75,7 @@ def plotit(T, e):
 
 if __name__ == "__main__" :
     T = getPoints("128-20080503104400")
-    e = 0.03
+    e = 0.3
     # T = getPoints("010-20081016113953")
     # e = 0.03
     # T = getPoints("115-20080520225850")
