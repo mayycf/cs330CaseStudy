@@ -94,19 +94,6 @@ traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
 traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
 traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
-# trajectory pair 1
-# distance, matrix = dtw(traj1, traj2)
-# path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
-# dtw_distance = distance / len(path)
-
-# trajectory pair 2
-# distance, matrix = dtw(traj3, traj4)
-# path, histogram_input = computeOptimalPath(matrix, traj3, traj4)
-
-# trajectory pair 3
-# distance, matrix = dtw(traj5, traj6)
-# path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
-
 # # simplified by 0.03
 simtraj503 = ts_greedy(traj5, 0.03)
 simtraj603 = ts_greedy(traj6, 0.03)
@@ -132,13 +119,11 @@ def createHist(trajOne, trajTwo):
     plt.xlabel('Edge Lengths')
     plt.ylabel('Frequency')
     plt.show()
-
+## DTW trajectory pairs histogram
 # createHist(traj1, traj2)
 # createHist(traj3, traj4)
 # createHist(traj5, traj6)
-# createHist(simtraj503, simtraj603)
-# createHist(simtraj51, simtraj61)
-# createHist(simtraj53, simtraj63)
+
 
 def createSimHist(trajOne, trajTwo, trajThree, trajFour, trajFive, trajSix):
     nbins = 20
@@ -157,5 +142,5 @@ def createSimHist(trajOne, trajTwo, trajThree, trajFour, trajFive, trajSix):
     plt.xlabel('Edge Lengths')
     plt.ylabel('Frequency')
     plt.show()
-
+## Simplification Histogram
 # createSimHist(simtraj503, simtraj603, simtraj51, simtraj61, simtraj53, simtraj63)

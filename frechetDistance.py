@@ -70,54 +70,15 @@ def getPoints(file, x):
                 points.append([float(row["x"]), float(row["y"])])
     return points
 
-
-
-
-
-### TESTING ###
-# A1 =[(1,1), (2,1), (2,2)]
-# B1 =[(2,2), (0,1), (2,4)]
-# print(fd(A1, B1))
-# Answer: 2.0
-
-# A2 = [[0.0, 0.0], [1.0, 0.0], [2.0, 0.0], [3.0, 0.0], [4.0, 0.0]]
-# B2 = [[0.0, 1.0], [1.0, 1.1], [2.0, 1.2], [3.0, 1.1], [4.0, 1.0], [4.0, 1.0]]
-# print(fd(A2, B2))
-# Answer: 1.2
-
-# distance, matrix = frechetDistance(A2, B2)
-# print(matrix)
-# print("Frechet distance: " + str(distance))
-# path, histogram_input = computeOptimalPath(matrix, A2, B2)
-# print(histogram_input)
-# path_distance = 0
-# for j in range(len(path)):
-#     path_distance = max(compute_distance(path[j]), path_distance)
-# print("Assignment: ")
-# print(path)
-# print("Assignment distance: " + str(path_distance))
-
 ### FRECHET DISTANCE HISTOGRAM ###
 
-# inputs
+# trajectory inputs
 traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
 traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
 traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
 traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
 traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
 traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
-
-# trajectory pair 1
-# distance, matrix = fd(traj1, traj2)
-# path, histogram_input = computeOptimalPath(matrix, traj1, traj2)
-
-# trajectory pair 2
-# distance, matrix = fd(traj3, traj4)
-# path, histogram_input = computeOptimalPath(matrix, traj3, traj4)
-
-# trajectory pair 3
-# distance, matrix = fd(traj5, traj6)
-# path, histogram_input = computeOptimalPath(matrix, traj5, traj6)
 
 def createHist(trajOne, trajTwo):
     nbins = 20
@@ -131,7 +92,7 @@ def createHist(trajOne, trajTwo):
     plt.xlabel('Edge Lengths')
     plt.ylabel('Frequency')
     plt.show()
-
+## Frechet trajectory pair histograms
 # createHist(traj1, traj2)
 # createHist(traj3, traj4)
-createHist(traj5, traj6)
+# createHist(traj5, traj6)
