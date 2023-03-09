@@ -70,29 +70,29 @@ def getPoints(file, x):
                 points.append([float(row["x"]), float(row["y"])])
     return points
 
-### FRECHET DISTANCE HISTOGRAM ###
+if __name__ == "__main__" : 
+    ### FRECHET DISTANCE HISTOGRAM ###
+    # trajectory inputs
+    traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
+    traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
+    traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
+    traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
+    traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
+    traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
-# trajectory inputs
-traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
-traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
-traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
-traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
-traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
-traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
-
-def createHist(trajOne, trajTwo):
-    nbins = 20
-    distance, matrix = fd(trajOne, trajTwo)
-    path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
-    print(distance)
-    print(len(histogram_input))
-    plt.hist(histogram_input, edgecolor = 'white', linewidth = 1.2)
-    plt.style.use('ggplot')
-    plt.title(r'$E_{max}$ (Frechet Distance)')
-    plt.xlabel('Edge Lengths')
-    plt.ylabel('Frequency')
-    plt.show()
-## Frechet trajectory pair histograms
-# createHist(traj1, traj2)
-# createHist(traj3, traj4)
-# createHist(traj5, traj6)
+    def createHist(trajOne, trajTwo):
+        nbins = 20
+        distance, matrix = fd(trajOne, trajTwo)
+        path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
+        print(distance)
+        print(len(histogram_input))
+        plt.hist(histogram_input, edgecolor = 'white', linewidth = 1.2)
+        plt.style.use('ggplot')
+        plt.title(r'$E_{max}$ (Frechet Distance)')
+        plt.xlabel('Edge Lengths')
+        plt.ylabel('Frequency')
+        plt.show()
+    ## Frechet trajectory pair histograms
+    # createHist(traj1, traj2)
+    # createHist(traj3, traj4)
+    # createHist(traj5, traj6)
