@@ -76,10 +76,18 @@ class Hub:
 
 if __name__ == "__main__" : 
     ### INPUT ###
-    # full_pts = getPoints('./geolife-cars.csv')
+    full_pts = getPoints('./geolife-cars.csv')
     # ten_pts = getPoints('./geolife-cars-ten-percent.csv')
     # thirty_pts = getPoints('./geolife-cars-thirty-percent.csv')
     # sixty_pts = getPoints('./geolife-cars-sixty-percent.csv')
+    minimum = 0
+    maximum = 0
+    for pt in full_pts:
+        minimum = min(minimum, pt[0], pt[1])
+        maximum = max(maximum, pt[0], pt[1])
+    
+    print(minimum)
+    print(maximum)
 
     ### FIND DENSITY HUBS ###
     # test values: k = 5, 10, 20, 40 and r = 2km
