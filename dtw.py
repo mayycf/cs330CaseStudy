@@ -24,6 +24,7 @@ def dtw(seriesA: list[(int, int)], seriesB: list[(int, int)]):
             matrix[i][j] = dist + minimum
     return matrix[-1][-1], matrix
 
+# algorithm to compute the assignment using the dp matrix returned by dtw()
 def computeOptimalPath(matrix, seriesA, seriesB):
     assignment = []
     histogram_input = []
@@ -66,9 +67,41 @@ def getPoints(file, x):
                 points.append([float(row["x"]), float(row["y"])])
     return points
 
-if __name__ == "__main__" : 
-    ###### DTW DISTANCE HISTOGRAM ######
+# create histogram for two trajectories
+def createHist(trajOne, trajTwo):
+        nbins = 20
+        distance, matrix = dtw(trajOne, trajTwo)
+        path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
+        dtw_distance = distance / len(path)
+        print(dtw_distance)
+        print(len(histogram_input))
+        plt.hist(histogram_input, bins = nbins, edgecolor = 'white', linewidth = 1.2)
+        plt.style.use('ggplot')
+        plt.title(r'$E_{sum}$ (DTW)')
+        plt.xlabel('Edge Lengths')
+        plt.ylabel('Frequency')
+        plt.show()
 
+# create histogram for simplified trajectories    
+def createSimHist(trajOne, trajTwo, trajThree, trajFour, trajFive, trajSix):
+        nbins = 20
+        distance03, matrix03 = dtw(trajOne, trajTwo)
+        path03, hist03 = computeOptimalPath(matrix03, trajOne, trajTwo)
+        distance1, matrix1 = dtw(trajThree, trajFour)
+        path1, hist1 = computeOptimalPath(matrix1, trajThree, trajFour)
+        distance3, matrix3 = dtw(trajFive, trajSix)
+        path3, hist3 = computeOptimalPath(matrix3, trajFive, trajSix)
+        print(distance03, distance1, distance3)
+        print(len(hist03), len(hist1), len(hist3))
+        plt.hist([hist03, hist1, hist3], edgecolor = 'white', label=['0.03', '0.1', '0.3'])
+        plt.style.use('ggplot')
+        plt.legend(title="$\epsilon$",loc='upper right')
+        plt.title(r'Simplification of $T_1$ and $T_2$ ($E_{sum})$')
+        plt.xlabel('Edge Lengths')
+        plt.ylabel('Frequency')
+        plt.show()
+
+if __name__ == "__main__" : 
     # inputs
     traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
     traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
@@ -89,40 +122,12 @@ if __name__ == "__main__" :
     simtraj53 = ts_greedy(traj5, 0.3)
     simtraj63 = ts_greedy(traj6, 0.3)
 
-    def createHist(trajOne, trajTwo):
-        nbins = 20
-        distance, matrix = dtw(trajOne, trajTwo)
-        path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
-        dtw_distance = distance / len(path)
-        print(dtw_distance)
-        print(len(histogram_input))
-        plt.hist(histogram_input, bins = nbins, edgecolor = 'white', linewidth = 1.2)
-        plt.style.use('ggplot')
-        plt.title(r'$E_{sum}$ (DTW)')
-        plt.xlabel('Edge Lengths')
-        plt.ylabel('Frequency')
-        plt.show()
-    ## DTW trajectory pairs histogram
+    ###### DTW DISTANCE HISTOGRAMS ######
+    
+    # DTW trajectory pairs histogram
     # createHist(traj1, traj2)
     # createHist(traj3, traj4)
     # createHist(traj5, traj6)
 
-    def createSimHist(trajOne, trajTwo, trajThree, trajFour, trajFive, trajSix):
-        nbins = 20
-        distance03, matrix03 = dtw(trajOne, trajTwo)
-        path03, hist03 = computeOptimalPath(matrix03, trajOne, trajTwo)
-        distance1, matrix1 = dtw(trajThree, trajFour)
-        path1, hist1 = computeOptimalPath(matrix1, trajThree, trajFour)
-        distance3, matrix3 = dtw(trajFive, trajSix)
-        path3, hist3 = computeOptimalPath(matrix3, trajFive, trajSix)
-        print(distance03, distance1, distance3)
-        print(len(hist03), len(hist1), len(hist3))
-        plt.hist([hist03, hist1, hist3], edgecolor = 'white', label=['0.03', '0.1', '0.3'])
-        plt.style.use('ggplot')
-        plt.legend(title="$\epsilon$",loc='upper right')
-        plt.title(r'Simplification of $T_1$ and $T_2$ ($E_{sum})$')
-        plt.xlabel('Edge Lengths')
-        plt.ylabel('Frequency')
-        plt.show()
-    ## Simplification Histogram
+    # Simplification Histogram
     # createSimHist(simtraj503, simtraj603, simtraj51, simtraj61, simtraj53, simtraj63)
