@@ -102,10 +102,10 @@ def getPoints(file, x):
 # inputs
 traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
 traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
-# traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
-# traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
-# traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
-# traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
+traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
+traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
+traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
+traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
 
 # trajectory pair 1
 # distance, matrix = fd(traj1, traj2)
@@ -123,14 +123,15 @@ def createHist(trajOne, trajTwo):
     nbins = 20
     distance, matrix = fd(trajOne, trajTwo)
     path, histogram_input = computeOptimalPath(matrix, trajOne, trajTwo)
-    print(histogram_input[:10])
     print(distance)
     print(len(histogram_input))
     plt.hist(histogram_input, edgecolor = 'white', linewidth = 1.2)
     plt.style.use('ggplot')
-    plt.title(r'$E_{max}$ Edge Length (Frechet Distance)')
-    plt.xlabel('Edge Length')
+    plt.title(r'$E_{max}$ (Frechet Distance)')
+    plt.xlabel('Edge Lengths')
     plt.ylabel('Frequency')
     plt.show()
 
-createHist(traj1, traj2)
+# createHist(traj1, traj2)
+# createHist(traj3, traj4)
+createHist(traj5, traj6)
