@@ -16,18 +16,16 @@ def fd(seriesA: list[(int, int)], seriesB: list[(int, int)]):
     for i in range(lengthA + 1):
         for j in range(lengthB + 1):
             matrix[i][j] = 10000000
-    
     matrix[0][0] = 0
-    
     for i in range(1, lengthA + 1):
         for j in range(1, lengthB + 1):
             dist = compute_distance([seriesA[i-1], seriesB[j-1]])
             minimum = min(matrix[i-1][j], matrix[i][j-1], matrix[i-1][j-1])
             matrix[i][j] = max(dist, minimum)
-    
     return matrix[-1][-1], matrix
 
 # finds the frechet distance assignment (i.e., how to pair points from the two trajectories)
+# uses the dp matrix returned by fd()
 def computeOptimalPath(matrix, seriesA, seriesB):
     histogram_input = []
     assignment = []
