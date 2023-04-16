@@ -74,20 +74,19 @@ class Hub:
             heapq.heapify(PQ)
         return hubList
 
-if __name__ == "__main__" : 
+if __name__ == "__main__": 
     ### INPUT ###
-    # full_pts = getPoints('./geolife-cars.csv')
+    full_pts = getPoints('./geolife-cars.csv')
     # ten_pts = getPoints('./geolife-cars-ten-percent.csv')
     # thirty_pts = getPoints('./geolife-cars-thirty-percent.csv')
     # sixty_pts = getPoints('./geolife-cars-sixty-percent.csv')
 
     ### FIND DENSITY HUBS ###
     # test values: k = 5, 10, 20, 40 and r = 2km
-    # hub_full = Hub(full_pts, 0.25)
-    # hub_full.densityPre()
-    # hubsList = hub_full.hubs(40, 2)
-    # print(hubsList)
-    # print out end time - start time
+    hub_full = Hub(full_pts, 0.25)
+    hub_full.densityPre()
+    hubsList = hub_full.hubs(40, 2)
+    print(hubsList)
 
     # test values: k = 10, r = 8km
     # hub_ten = Hub(ten_pts, 0.25)
@@ -108,15 +107,15 @@ if __name__ == "__main__" :
     # print(hubsList)
 
     ### PLOTTING ###
-    # plt.scatter([item[0] for item in full_pts], [item[1] for item in full_pts], c = "blue", s = 0.01, alpha = 0.5, label = 'Points of $\mathscr{P}$')
-    # plt.scatter([hub[0] for hub in hubsList], [hub[1] for hub in hubsList], c = 'red', s = 10, alpha = 0.75, label = 'Hubs identified (H)')
-    # ax = plt.gca()
-    # ax.set(xlim=(-75, 75))
-    # for hub in hubsList:
-    #     circle = plt.Circle((hub[0], hub[1]), radius = 8, color = 'black', linestyle='--', alpha = 0.9, fill = False)
-    #     ax.add_artist(circle)
-    # plt.legend(loc='upper right')
-    # plt.title('Identifying Hubs in Geolife Cars')
-    # plt.xlabel('Longitude (km)')
-    # plt.ylabel('Latitude (km)')
-    # plt.show()
+    plt.scatter([item[0] for item in full_pts], [item[1] for item in full_pts], c = "blue", s = 0.01, alpha = 0.5, label = 'Points of $\mathscr{P}$')
+    plt.scatter([hub[0] for hub in hubsList], [hub[1] for hub in hubsList], c = 'red', s = 10, alpha = 0.75, label = 'Hubs identified (H)')
+    ax = plt.gca()
+    ax.set(xlim=(-75, 75))
+    for hub in hubsList:
+        circle = plt.Circle((hub[0], hub[1]), radius = 8, color = 'black', linestyle='--', alpha = 0.9, fill = False)
+        ax.add_artist(circle)
+    plt.legend(loc='upper right')
+    plt.title('Identifying Hubs in Geolife Cars')
+    plt.xlabel('Longitude (km)')
+    plt.ylabel('Latitude (km)')
+    plt.show()
