@@ -30,17 +30,14 @@ def simplify(pts_dict, e):
     return mod_dict
 
 def center_approach_1(trajectories, pts_dict):
-    # CODE FROM TASK 1, NEED FOR DTW
-    # I think all you need is distance
-    # distance, matrix = dtw(trajOne, trajTwo)
     center_traj = []
-    m = 100000
+    m = 1000000
     for trajOne in trajectories:
-        ## for all other trajectories lmao
         sum = 0
-        for trajTwo in trajectories[1:]:
-            distance, matrix = dtw(pts_dict[trajOne], pts_dict[trajTwo])
-            sum += distance
+        for trajTwo in trajectories:
+            if trajOne != trajTwo:
+                distance, matrix = dtw(pts_dict[trajOne], pts_dict[trajTwo])
+                sum += distance
         if sum < m:
             m = sum
             min_traj = trajOne
@@ -99,9 +96,10 @@ if __name__ == "__main__":
     # center_traj_1 = center_approach_1(trajectories, pts_dict)
 
     # approach 1 simplifications
-    # center_traj_103 = center_approach_1(trajectories, simplify(pts_dict, 0.03))
-    # center_traj_11 = center_approach_1(trajectories, simplify(pts_dict, 0.1))
-    # center_traj_13 = center_approach_1(trajectories, simplify(pts_dict, 0.3))
+    # simplified_pts_dict_03 = simplify(pts_dict, 0.03)
+    # simplified_pts_dict_1 = simplify(pts_dict, 0.1)
+    # simplified_pts_dict_3 = simplify(pts_dict, 0.3)
+    # center_traj_1 = center_approach_1(trajectories, simplified_pts_dict_1)
 
     # plotting approach 1
     # plot_centering(trajectories, pts_dict, pts_dict[center_traj_1])
