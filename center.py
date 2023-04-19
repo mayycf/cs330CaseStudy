@@ -23,11 +23,28 @@ def get_traj(file):
         trajectories = [line.strip() for line in f.readlines()]
     return trajectories
 
+def simplify(pts_dict, e):
+    mod_dict = dict()
+    for key in pts_dict:
+        mod_dict[key] = ts_greedy(pts_dict[key], e)
+    return mod_dict
+
 def center_approach_1(trajectories, pts_dict):
     # CODE FROM TASK 1, NEED FOR DTW
     # I think all you need is distance
     # distance, matrix = dtw(trajOne, trajTwo)
-    pass
+    center_traj = []
+    m = 100000
+    for trajOne in trajectories:
+        ## for all other trajectories lmao
+        sum = 0
+        for trajTwo in trajectories[1:]:
+            distance, matrix = dtw(pts_dict[trajOne], pts_dict[trajTwo])
+            sum += distance
+        if sum < m:
+            m = sum
+            min_traj = trajOne
+    return min_traj
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a
 # function that computes an average of these functions
@@ -77,6 +94,17 @@ if __name__ == "__main__":
     # get points from each trajectory, store in a dict where trajectory id is the key and 
     # array of points is the value
     pts_dict = get_points('geolife-cars-upd8.csv', trajectories)
+
+    # approach 1
+    # center_traj_1 = center_approach_1(trajectories, pts_dict)
+
+    # approach 1 simplifications
+    # center_traj_103 = center_approach_1(trajectories, simplify(pts_dict, 0.03))
+    # center_traj_11 = center_approach_1(trajectories, simplify(pts_dict, 0.1))
+    # center_traj_13 = center_approach_1(trajectories, simplify(pts_dict, 0.3))
+
+    # plotting approach 1
+    # plot_centering(trajectories, pts_dict, pts_dict[center_traj_1])
     
     # approach 2
     # center_traj_2 = center_approach_2(trajectories, pts_dict)
