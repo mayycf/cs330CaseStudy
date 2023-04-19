@@ -40,11 +40,15 @@ def random_lloyds(traj_dict, k, t_max):
     num_iter = 0
     changed = True
     while num_iter < t_max and changed:
-        new_clusters_dict = recompute_center(traj_dict, cluster_centers)
+        new_clusters_dict = recompute_center(traj_dict, cluster_centers, clusters_dict)
         num_iter += 1
-        if check_cluster_dicts(clusters_dict, new_clusters_dict):
-            changed = False
-
+        changed = False
+        for num in range(len(cluster_centers)):
+            new_center = center_approach_2(clusters_dict[num], traj_dict)
+            if new_center != cluster_centers[num]:
+                changed = True
+            cluster_centers[num] = new_center
+                
 # returns: boolean (True if the old and new cluster dictionaries are the same, false otherwise)
 def check_cluster_dicts(old, new):
     for key in old:
@@ -52,10 +56,9 @@ def check_cluster_dicts(old, new):
             return False
     return True
             
-def recompute_center(traj_dict, cluster_centers):
-    new_clusters_dict = dict()
+def recompute_center(traj_dict, cluster_centers, clusters_dict):
     for i in range(len(cluster_centers)):
-        new_clusters_dict[i] = set()
+        clusters_dict[i] = set()
     for traj_key in traj_dict:
         cluster = -1
         min_dist = 10000000
@@ -64,8 +67,8 @@ def recompute_center(traj_dict, cluster_centers):
             if dist <= min_dist:
                 cluster = num
                 min_dist = dist
-        new_clusters_dict[cluster].add(traj_key)
-    return new_clusters_dict
+        clusters_dict[cluster].add(traj_key)
+    return clusters_dict
 
 # returns: dictionary of trajectories with simplified points
 def simplify_pts(pts_dict, e):
@@ -78,7 +81,7 @@ def simplify_pts(pts_dict, e):
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    simplified_pts_dict = simplify_pts(pts_dict, 0.1)
+    simplified_pts_dict = simplify_pts(pts_dict, 0.03)
     print("created simplified_pts_dict")   
     random_lloyds(simplified_pts_dict, 10, 1)
     
