@@ -92,15 +92,17 @@ if __name__ == "__main__":
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
     simplified_pts_dict = simplify_pts(pts_dict, 0.1)
-    print("cost with k = 4, random seeding")
-    print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
     
+    # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
+    # Evaluate the cost three times for each value of k, and report the average
     
-# Run Lloyd’s algorithm on all trajectories in geolife-cars-upd8.csv. 
-# Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding method. 
-# For robustness,
-# evaluate the cost three times for each value of k, and report the average. Draw a line plot of
-# the average cost of clustering vs. k, for both seeding methods. What value of k would you
-# recommend?
-    
-    
+    # print("cost with k = 4 & random seeding")
+    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    # print("cost with k = 6 & random seeding")
+    # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
+    # print("cost with k = 8 & random seeding")
+    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "random"))
+    # print("cost with k = 10 & random seeding")
+    # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
+    # print("cost with k = 12 & random seeding")
+    # print(lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
