@@ -59,10 +59,10 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         current_cost = recompute_center(traj_dict, cluster_centers, clusters_dict)
         print(current_cost)
         num_iter += 1
-        if previous_cost - current_cost < 0.01:
+        if previous_cost - current_cost < 10:
             changed = False
         previous_cost = current_cost   
-    return cluster_centers
+    return current_cost
        
 def recompute_center(traj_dict, cluster_centers, clusters_dict):
     cost = 0
@@ -78,7 +78,7 @@ def recompute_center(traj_dict, cluster_centers, clusters_dict):
                 min_dist = dist
         clusters_dict[cluster].append(traj_key)
         cost += min_dist
-    return min_dist
+    return cost
 
 # returns: dictionary of trajectories with simplified points
 def simplify_pts(pts_dict, e):
@@ -92,6 +92,15 @@ if __name__ == "__main__":
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
     simplified_pts_dict = simplify_pts(pts_dict, 0.1)
-    print("created simplified_pts_dict")   
-    lloyds_algorithm(simplified_pts_dict, 5, 5, "random")
+    print("cost with k = 4, random seeding")
+    print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    
+    
+# Run Lloyd’s algorithm on all trajectories in geolife-cars-upd8.csv. 
+# Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding method. 
+# For robustness,
+# evaluate the cost three times for each value of k, and report the average. Draw a line plot of
+# the average cost of clustering vs. k, for both seeding methods. What value of k would you
+# recommend?
+    
     
