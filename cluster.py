@@ -51,7 +51,7 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         # compute the center for each cluster
         if num_iter > 0 or seed_method == "random":
             for key in clusters_dict:
-                traj_id = center_approach_1(clusters_dict[key], traj_dict)
+                traj_id, cost = center_approach_1(clusters_dict[key], traj_dict)
                 cluster_centers[key] = traj_id
             
         # assign each trajectory to the cluster whose center trajectory is closest
@@ -91,7 +91,7 @@ def simplify_pts(pts_dict, e):
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    simplified_pts_dict = simplify_pts(pts_dict, 0.1)
+    simplified_pts_dict = simplify_pts(pts_dict, 0.2)
     
     # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
     # Evaluate the cost three times for each value of k, and report the average

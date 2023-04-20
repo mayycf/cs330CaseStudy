@@ -42,8 +42,7 @@ def center_approach_1(trajectories, pts_dict):
             m = sum
             min_traj = trajOne
     avg_cost = m/len(trajectories)
-    print(avg_cost)
-    return min_traj, avg_cost
+    return min_traj, m
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a
 # function that computes an average of these functions
@@ -52,7 +51,7 @@ def center_approach_2(trajectories, pts_dict):
     for traj in trajectories:
         for pt in pts_dict[traj]:
             # center trajectory will have a point at every 0.1-unit increment on the x-axis
-            rounded = math.floor(pt[0]*100)/100
+            rounded = math.floor(pt[0]*10)/10
             if rounded not in average_pts:
                 average_pts[rounded] = []
             average_pts[rounded].append(pt[1])
@@ -62,7 +61,7 @@ def center_approach_2(trajectories, pts_dict):
         y_val = sum(average_pts[x_val])/len(average_pts[x_val])
         center_traj[index] = [x_val, y_val]
         index += 1
-    center_traj.sort(key=lambda x: x[0])
+    center_traj.sort(key=lambda x: -x[0])
     cost = 0
     for traj in trajectories:
         dist, matrix = dtw(center_traj, pts_dict[traj])
