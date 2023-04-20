@@ -31,7 +31,7 @@ def simplify(pts_dict, e):
 
 def center_approach_1(trajectories, pts_dict):
     center_traj = []
-    m = 1000000
+    m = 10000000
     for trajOne in trajectories:
         sum = 0
         for trajTwo in trajectories:
@@ -41,7 +41,9 @@ def center_approach_1(trajectories, pts_dict):
         if sum < m:
             m = sum
             min_traj = trajOne
-    return min_traj
+    avg_cost = m/len(trajectories)
+    print(avg_cost)
+    return min_traj, avg_cost
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a
 # function that computes an average of these functions
@@ -50,7 +52,7 @@ def center_approach_2(trajectories, pts_dict):
     for traj in trajectories:
         for pt in pts_dict[traj]:
             # center trajectory will have a point at every 0.1-unit increment on the x-axis
-            rounded = math.floor(pt[0]*10)/10
+            rounded = math.floor(pt[0]*100)/100
             if rounded not in average_pts:
                 average_pts[rounded] = []
             average_pts[rounded].append(pt[1])
@@ -60,7 +62,14 @@ def center_approach_2(trajectories, pts_dict):
         y_val = sum(average_pts[x_val])/len(average_pts[x_val])
         center_traj[index] = [x_val, y_val]
         index += 1
-    return sorted(center_traj, key=lambda x: x[0])
+    center_traj.sort(key=lambda x: x[0])
+    cost = 0
+    for traj in trajectories:
+        dist, matrix = dtw(center_traj, pts_dict[traj])
+        cost += dist
+    avg_cost = cost/len(trajectories)
+    print(avg_cost)
+    return center_traj, avg_cost
 
 # helper function to graph the trajectories, including the center trajectory
 def plot_centering(trajectories, pts_dict, center):
@@ -77,7 +86,7 @@ def plot_centering(trajectories, pts_dict, center):
 
     # show legend and add to figure
     plt.legend(fontsize="8")
-    plt.title("GeoLife Trajectory Centering")
+    plt.title("GeoLife Trajectory Centering - Approach 2")
     plt.xlabel("Longitude (in km)")
     plt.ylabel("Latitude (in km)")
 
@@ -93,19 +102,19 @@ if __name__ == "__main__":
     pts_dict = get_points('geolife-cars-upd8.csv', trajectories)
 
     # approach 1
-    # center_traj_1 = center_approach_1(trajectories, pts_dict)
+    # center_traj_1, avg_cost = center_approach_1(trajectories, pts_dict)
 
     # approach 1 simplifications
     # simplified_pts_dict_03 = simplify(pts_dict, 0.03)
     # simplified_pts_dict_1 = simplify(pts_dict, 0.1)
     # simplified_pts_dict_3 = simplify(pts_dict, 0.3)
-    # center_traj_1 = center_approach_1(trajectories, simplified_pts_dict_1)
+    # center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_1)
 
     # plotting approach 1
     # plot_centering(trajectories, pts_dict, pts_dict[center_traj_1])
     
     # approach 2
-    # center_traj_2 = center_approach_2(trajectories, pts_dict)
+    # center_traj_2, cost = center_approach_2(trajectories, pts_dict)
     
     # plotting approach 2
     # plot_centering(trajectories, pts_dict, center_traj_2)
