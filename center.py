@@ -66,9 +66,9 @@ def center_approach_2(trajectories, pts_dict):
     for traj in trajectories:
         dist, matrix = dtw(center_traj, pts_dict[traj])
         cost += dist
-    avg_cost = cost/len(trajectories)
-    print(avg_cost)
-    return center_traj, avg_cost
+    # avg_cost = cost/len(trajectories)
+    # print(avg_cost)
+    return center_traj, cost
 
 # helper function to graph the trajectories, including the center trajectory
 def plot_centering(trajectories, pts_dict, center):

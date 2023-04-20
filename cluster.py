@@ -33,13 +33,29 @@ def random_seeding(traj_dict, k):
             traj_list.pop(selected)
     return clusters_dict
 
-def proposed_seeding():
-    # use k-means++
-    pass
+# input: traj_dict -> key = traj id, value = array of points in that trajectory
+def proposed_seeding(traj_dict, k):
+    # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
+    traj_list = [key for key in traj_dict]
+    # clusters_dict = dict() -> key = integer (0, ..., k-1), value = set of traj ids in that cluster
+    clusters_dict = dict()
+    # as you find centers using k-means++, append them to the cluster_centers array
+    cluster_centers = []
+    
+    ### YOUR CODE HERE ###
+    # use k-means++ to find the ideal centers for the clusters to begin with
+    # as you find each center, append the traj_id to cluster_centers[]
+    # after finding the k cluster centers, call reassignment to populate clusters_dict with 
+    # the trajectories that should be in each cluster    
+    
+    reassignment(traj_dict, cluster_centers, clusters_dict)
+    return clusters_dict
 
 def lloyds_algorithm(traj_dict, k, t_max, seed_method):
     if seed_method == "random":
         clusters_dict = random_seeding(traj_dict, k)
+    elif seed_method == "proposed":
+        clusters_dict = proposed_seeding(traj_dict, k)
     # cluster_centers = [] -> array of traj ids to store the center trajectory for each cluster
     cluster_centers = [None for i in range(k)]
         
@@ -49,14 +65,12 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
     changed = True
     while num_iter < t_max and changed:
         # compute the center for each cluster
-        if num_iter > 0 or seed_method == "random":
-            for key in clusters_dict:
-                traj_id, cost = center_approach_1(clusters_dict[key], traj_dict)
-                cluster_centers[key] = traj_id
-            
+        for key in clusters_dict:
+            traj_id, cost = center_approach_1(clusters_dict[key], traj_dict)
+            cluster_centers[key] = traj_id 
         # assign each trajectory to the cluster whose center trajectory is closest
         # find the current_cost of that clustering
-        current_cost = recompute_center(traj_dict, cluster_centers, clusters_dict)
+        current_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
         print(current_cost)
         num_iter += 1
         if previous_cost - current_cost < 10:
@@ -64,7 +78,7 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         previous_cost = current_cost   
     return current_cost
        
-def recompute_center(traj_dict, cluster_centers, clusters_dict):
+def reassignment(traj_dict, cluster_centers, clusters_dict):
     cost = 0
     for cluster_key in clusters_dict:
         clusters_dict[cluster_key] = []
@@ -97,7 +111,7 @@ if __name__ == "__main__":
     # Evaluate the cost three times for each value of k, and report the average
     
     # print("cost with k = 4 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
     # print("cost with k = 6 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
     # print("cost with k = 8 & random seeding")
