@@ -170,12 +170,11 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
     if seed_method == "random":
         clusters_dict = random_seeding(traj_dict, k)
     elif seed_method == "proposed":
-        clusters_dict = proposed_seeding(traj_dict, k)
+        clusters_dict = proposed_seeding_3(traj_dict, k)
     # cluster_centers = [] -> array of traj ids to store the center trajectory for each cluster
     cluster_centers = [None for i in range(k)]
         
     previous_cost = 10000000
-    print(previous_cost)
     num_iter = 0
     changed = True
     while num_iter < t_max and changed:
@@ -216,27 +215,6 @@ def simplify_pts(pts_dict, e):
         sim_traj = ts_greedy(pts_dict[key], e)
         simplified_pts_dict[key] = sim_traj
     return simplified_pts_dict
-
-# helper function to plot the average cost of clustering vs. k
-def plot_avg_cost_k(random_cluster, proposed_cluster):
-    # plot random cluster
-    x = [pt[0] for pt in random_cluster]
-    y = [pt[1] for pt in random_cluster]
-    plt.plot(x, y, marker="o", linewidth = 1, label='Random Seeding', color = 'blue')
-
-    # plot proposed cluster
-    # x = [pt[0] for pt in proposed_cluster]
-    # y = [pt[1] for pt in proposed_cluster]
-    # plt.plot(x, y, linewidth = 1, label='Proposed Seeding', color = 'green')
-
-    # show legend and add to figure
-    plt.legend(fontsize="8")
-    plt.title("Average Cost of Clustering vs. K")
-    plt.xlabel("K")
-    plt.ylabel("Average Cost")
-
-    # show the figure
-    plt.show()
     
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
@@ -247,7 +225,7 @@ if __name__ == "__main__":
     # Evaluate the cost three times for each value of k, and report the average
     
     # print("cost with k = 4 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    print(lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
     # print("cost with k = 6 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
     # print("cost with k = 8 & random seeding")
@@ -257,7 +235,6 @@ if __name__ == "__main__":
     # print("cost with k = 12 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
     
-    # Plotting
     random_clustering_costs = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
                          6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
                          8: [14833.551955813587, 15370.178408613201, 14792.085315196475],
@@ -271,5 +248,3 @@ if __name__ == "__main__":
     proposed_clustering_costs = {}
     
     proposed_clustering_avg_costs = []
-    
-    # plot_avg_cost_k(random_clustering_avg_costs, proposed_clustering_avg_costs)
