@@ -41,7 +41,7 @@ def center_approach_1(trajectories, pts_dict):
         if sum < m:
             m = sum
             min_traj = trajOne
-    avg_cost = m/len(trajectories)
+    # avg_cost = m/len(trajectories)
     return min_traj, m
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a

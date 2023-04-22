@@ -32,20 +32,20 @@ def random_seeding(traj_dict, k):
             clusters_dict[i].append(traj_list[selected])
             traj_list.pop(selected)
 
-    print("clusters: ", clusters_dict.keys())
     return clusters_dict
 
 # input: traj_dict -> key = traj id, value = array of points in that trajectory
 def proposed_seeding(traj_dict, k):
     # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
     traj_list = [key for key in traj_dict]
-    # clusters_dict = dict() -> key = integer (0, ..., k-1), value = set of traj ids in that cluster
+    # clusters_dict = dict() -> key = integer (0, ..., k-1), value = array of traj ids in that cluster
     clusters_dict = dict()
-    # as you find centers using k-means++, append them to the cluster_centers array
+    for i in range(k):
+        clusters_dict[i] = []
+    # keep track of traj ids that will serve as the cluster centers
     cluster_centers = []
     
-    ### YOUR CODE HERE ###
-    # first center
+    # first center, randomly selected
     c1 = random.randint(0, len(traj_list) - 1)
     cluster_centers.append(traj_list[c1])
 
@@ -60,13 +60,11 @@ def proposed_seeding(traj_dict, k):
                     max_d = dist
                     max_traj = traj_key
 
-            cluster_centers.append(max_traj)
+        cluster_centers.append(max_traj)
 
     print("clusters: ", cluster_centers)
-    # as you find each center, append the traj_id to cluster_centers[]
-    # after finding the k cluster centers, call reassignment to populate clusters_dict with 
-    # the trajectories that should be in each cluster    
-    
+
+    # reassignment populates clusters_dict with the trajectories that should be in each cluster    
     reassignment(traj_dict, cluster_centers, clusters_dict)
     return clusters_dict
 
@@ -183,17 +181,38 @@ def simplify_pts(pts_dict, e):
         sim_traj = ts_greedy(pts_dict[key], e)
         simplified_pts_dict[key] = sim_traj
     return simplified_pts_dict
+
+# helper function to plot the average cost of clustering vs. k
+def plot_avg_cost_k(random_cluster, proposed_cluster):
+    # plot random cluster
+    x = [pt[0] for pt in random_cluster]
+    y = [pt[1] for pt in random_cluster]
+    plt.plot(x, y, marker="o", linewidth = 1, label='Random Seeding', color = 'blue')
+
+    # plot proposed cluster
+    # x = [pt[0] for pt in proposed_cluster]
+    # y = [pt[1] for pt in proposed_cluster]
+    # plt.plot(x, y, linewidth = 1, label='Proposed Seeding', color = 'green')
+
+    # show legend and add to figure
+    plt.legend(fontsize="8")
+    plt.title("Average Cost of Clustering vs. K")
+    plt.xlabel("K")
+    plt.ylabel("Average Cost")
+
+    # show the figure
+    plt.show()
     
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    simplified_pts_dict = simplify_pts(pts_dict, 0.75)
+    simplified_pts_dict = simplify_pts(pts_dict, 0.8)
     
     # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
     # Evaluate the cost three times for each value of k, and report the average
     
     # print("cost with k = 4 & random seeding")
-    print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
     # print("cost with k = 6 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
     # print("cost with k = 8 & random seeding")
@@ -202,3 +221,20 @@ if __name__ == "__main__":
     # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
     # print("cost with k = 12 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
+    
+    # Plotting
+    random_clustering_costs = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
+                         6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
+                         8: [14833.551955813587, 15370.178408613201, 14792.085315196475],
+                         10: [14787.456677584803, 14696.415594061898, 14788.535401773328],
+                         12: [14780.98240174656, 14739.241300043663, 14669.49297809701]}
+    
+    random_clustering_avg_costs = [[4, 36574.540624951806], [6, 19181.509964732013], 
+                                   [8, 14998.605226541089], [10, 14757.469224473343], 
+                                   [12, 14729.905559962412]]
+    
+    proposed_clustering_costs = {}
+    
+    proposed_clustering_avg_costs = []
+    
+    # plot_avg_cost_k(random_clustering_avg_costs, proposed_clustering_avg_costs)
