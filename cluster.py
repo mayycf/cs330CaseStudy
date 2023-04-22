@@ -69,7 +69,7 @@ def proposed_seeding(traj_dict, k):
     return clusters_dict
 
 # input: traj_dict -> key = traj id, value = array of points in that trajectory
-def proposed_seeding_2(traj_dict, k):
+def proposed_seeding_3(traj_dict, k):
     # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
     traj_list = [key for key in traj_dict]
     # traj_centroid_dist - key = traj id (i.e. "115-20080527225031"), value = distance from nearest centroid
