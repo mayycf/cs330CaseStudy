@@ -32,20 +32,20 @@ def random_seeding(traj_dict, k):
             clusters_dict[i].append(traj_list[selected])
             traj_list.pop(selected)
 
-    print("clusters: ", clusters_dict.keys())
     return clusters_dict
 
 # input: traj_dict -> key = traj id, value = array of points in that trajectory
 def proposed_seeding(traj_dict, k):
     # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
     traj_list = [key for key in traj_dict]
-    # clusters_dict = dict() -> key = integer (0, ..., k-1), value = set of traj ids in that cluster
+    # clusters_dict = dict() -> key = integer (0, ..., k-1), value = array of traj ids in that cluster
     clusters_dict = dict()
-    # as you find centers using k-means++, append them to the cluster_centers array
+    for i in range(k):
+        clusters_dict[i] = []
+    # keep track of traj ids that will serve as the cluster centers
     cluster_centers = []
     
-    ### YOUR CODE HERE ###
-    # first center
+    # first center, randomly selected
     c1 = random.randint(0, len(traj_list) - 1)
     cluster_centers.append(traj_list[c1])
 
@@ -60,13 +60,11 @@ def proposed_seeding(traj_dict, k):
                     max_d = dist
                     max_traj = traj_key
 
-            cluster_centers.append(max_traj)
+        cluster_centers.append(max_traj)
 
     print("clusters: ", cluster_centers)
-    # as you find each center, append the traj_id to cluster_centers[]
-    # after finding the k cluster centers, call reassignment to populate clusters_dict with 
-    # the trajectories that should be in each cluster    
-    
+
+    # reassignment populates clusters_dict with the trajectories that should be in each cluster    
     reassignment(traj_dict, cluster_centers, clusters_dict)
     return clusters_dict
 
@@ -124,10 +122,13 @@ def simplify_pts(pts_dict, e):
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    simplified_pts_dict = simplify_pts(pts_dict, 0.75)
+    simplified_pts_dict = simplify_pts(pts_dict, 0.8)
     
     # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
     # Evaluate the cost three times for each value of k, and report the average
+    random_clustering = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
+                         6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
+                         8: [14833.551955813587, ]}
     
     # print("cost with k = 4 & random seeding")
     print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
