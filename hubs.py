@@ -1,6 +1,7 @@
 import csv, math
 import queue, heapq
 import matplotlib.pyplot as plt
+import time
 
 # input: array of 2 tuples, [(x1, y1), (x2, y2)]
 # output: returns the distance between the 2 points
@@ -59,7 +60,7 @@ class Hub:
         hubList = []
         while numHubs < k:
             neighbors, cell = heapq.heappop(PQ)
-            hubList.append((cell[0], cell[1]))
+            hubList.append(cell)
             numHubs += 1
             # index for PQ
             i = 0
@@ -73,7 +74,7 @@ class Hub:
             heapq.heapify(PQ)
         return hubList
 
-if __name__ == "__main__" : 
+if __name__ == "__main__": 
     ### INPUT ###
     full_pts = getPoints('./geolife-cars.csv')
     # ten_pts = getPoints('./geolife-cars-ten-percent.csv')
@@ -84,18 +85,17 @@ if __name__ == "__main__" :
     # test values: k = 5, 10, 20, 40 and r = 2km
     hub_full = Hub(full_pts, 0.25)
     hub_full.densityPre()
-    hubsList = hub_full.hubs(10, 8)
+    hubsList = hub_full.hubs(40, 2)
     print(hubsList)
-    # print out end time - start time
 
     # test values: k = 10, r = 8km
-    # hub_ten = Hub(ten_pts, 0.177)
+    # hub_ten = Hub(ten_pts, 0.25)
     # hub_ten.densityPre()
     # hubsList = hub_ten.hubs(10, 8)
     # print(hubsList)
 
     # test values: k = 10, r = 8km
-    # hub_thirty = Hub(thirty_pts, 0.177)
+    # hub_thirty = Hub(thirty_pts, 0.25)
     # hub_thirty.densityPre()
     # hubsList = hub_thirty.hubs(10, 8)
     # print(hubsList)
@@ -106,7 +106,7 @@ if __name__ == "__main__" :
     # hubsList = hub_sixty.hubs(10, 8)
     # print(hubsList)
 
-    # PLOTTING
+    ### PLOTTING ###
     plt.scatter([item[0] for item in full_pts], [item[1] for item in full_pts], c = "blue", s = 0.01, alpha = 0.5, label = 'Points of $\mathscr{P}$')
     plt.scatter([hub[0] for hub in hubsList], [hub[1] for hub in hubsList], c = 'red', s = 10, alpha = 0.75, label = 'Hubs identified (H)')
     ax = plt.gca()
