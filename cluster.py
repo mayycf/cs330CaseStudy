@@ -137,19 +137,20 @@ def plot_clustering(avg_cost):
     plt.legend(fontsize="8")
     plt.title("GeoLife Average Clustering Costs - Proposed")
     plt.xlabel("K values")
-    plt.ylabel("Avgerage Clustering Costs")
+    plt.ylabel("Average Clustering Costs")
     
     plt.show()
     
 def plot_iterations(avg_cost):
-    k = [4,6,8,10,12]
+    iter = [1,2,3,4,5]
     costs = []
     # plot trajectories
-    for i in range(len(k)):
+    for i in range(len(iter)):
         y = avg_cost[i][1]
         costs.append(y)
         
-    plt.plot(k, costs, linewidth = 0.75, label = "cost", color='red', marker='o')
+    plt.plot(iter, costs, linewidth = 0.75, label = "cost", color='red', marker='o')
+    plt.xticks(iter)
 
     # show legend and add to figure
     plt.legend(fontsize="8")
@@ -184,11 +185,11 @@ def plot_centers(trajectories, pts_dict):
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    simplified_pts_dict = simplify_pts(pts_dict, 0.8)
-    cluster_centers = ['115-20080621218494', '128-20081023013657', '010-20081012234529', '153-20080712125122', '128-20080717130705', '163-20080704145434', '115-20080611231533', '115-20080514225734']
+    simplified_pts_dict = simplify_pts(pts_dict, 0.2)
+    # cluster_centers = ['115-20080621218494', '128-20081023013657', '010-20081012234529', '153-20080712125122', '128-20080717130705', '163-20080704145434', '115-20080611231533', '115-20080514225734']
     
     # proposed seeding, k = 8, epsilon = 0.2
-    # cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
+    cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
     
     ### RANDOM SEEDING ###
     # print("cost with k = 4 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
@@ -224,6 +225,15 @@ if __name__ == "__main__":
                                      [8, 1481.9830313828543], [10, 1186.9068670485835], 
                                      [12, 1030.73445944251]]
     
+    random_average_cost_it = [[1, 132419.591147], [2, 15302.5331877], [3, 15007.1994714],
+                              [4, 15000.2332466], [5, 14998.6052265]]
+
+    proposed_average_cost_it = [[1, 2133.95273997], [2, 1481.98303138], [3, 1481.98303138],
+                              [4, 1481.98303138], [5, 1481.98303138]]
+
+    # plot_iterations(random_average_cost_it)
+    # plot_iterations(proposed_average_cost_it)
     # plot_clustering(random_clustering_avg_costs)
     # plot_clustering(proposed_clustering_avg_costs)
     # plot_centers(cluster_centers, simplified_pts_dict)
+    # plot_centering(simplified_pts_dict)
