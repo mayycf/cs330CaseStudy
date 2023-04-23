@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 from dtw import dtw
 from tsGreedy import ts_greedy
-from center import center_approach_1, center_approach_2
+from center import center_approach_1
 
 # to parse geolife file for ALL trajectories
 # returns: dictionary with trajectory id as the key and arrays of pts as the value
@@ -70,12 +70,13 @@ def proposed_seeding(traj_dict, k):
 def lloyds_algorithm(traj_dict, k, t_max, seed_method): 
     if seed_method == "random":
         clusters_dict = random_seeding(traj_dict, k)
+        previous_cost = 10000000
     elif seed_method == "proposed":
-        clusters_dict = proposed_seeding(traj_dict, k)
+        clusters_dict, previous_cost = proposed_seeding(traj_dict, k)
+        print(previous_cost)
     # cluster_centers = [] -> array of traj ids to store the center trajectory for each cluster
     cluster_centers = [None for i in range(k)]
         
-    previous_cost = 10000000
     num_iter = 0
     changed = True
     while num_iter < t_max and changed:
@@ -170,8 +171,7 @@ def plot_centers(trajectories, pts_dict):
         y = [pt[1] for pt in pts_dict[traj]]
         plt.plot(x, y, linewidth = 0.75, label=traj, color = colors[count])
         count += 1
-
-
+        
     # show legend and add to figure
     plt.legend(fontsize="8")
     plt.title("GeoLife Trajectory Centering with Proposed Seeding")
@@ -181,39 +181,25 @@ def plot_centers(trajectories, pts_dict):
     # show the figure
     plt.show()
     
-    
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
     simplified_pts_dict = simplify_pts(pts_dict, 0.8)
     cluster_centers = ['115-20080621218494', '128-20081023013657', '010-20081012234529', '153-20080712125122', '128-20080717130705', '163-20080704145434', '115-20080611231533', '115-20080514225734']
     
-    
-    # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
-    # Evaluate the cost three times for each value of k, and report the average
-    
-    # print("cost with k = 4 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
-    # print("cost with k = 6 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
-    # print("cost with k = 8 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
-    # print("cost with k = 10 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
-    # print("cost with k = 12 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
+    ### RANDOM SEEDING ###
+    # print("cost with k = 4 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    # print("cost with k = 6 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
+    # print("cost with k = 8 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "random"))
+    # print("cost with k = 10 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
+    # print("cost with k = 12 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
 
-    # print("cost with k = 4 & proposed seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
-    # print("cost with k = 6 & proposed seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
-    # print("cost with k = 8 & proposed seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
-    # print("cost with k = 10 & proposed seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
-    # print("cost with k = 12 & proposed seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
-    
+    ### PROPOSED SEEDING ###
+    # print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
+    # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
+    # print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
+    # print("cost with k = 10 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
+    # print("cost with k = 12 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
     
     random_clustering_costs = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
                          6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
@@ -225,16 +211,16 @@ if __name__ == "__main__":
                                    [8, 14998.605226541089], [10, 14757.469224473343], 
                                    [12, 14729.905559962412]]
     
-    proposed_clustering_costs = {4: [15757.995125725116, 15757.995125725116, 15757.995125725116],
-                         6: [4826.341894457121, 4826.341894457121, 4826.341894457121],
-                         8: [508.8589729958238, 508.8589729958238, 508.8589729958238],
-                         10: [136.2003042903549, 136.2003042903549, 136.2003042903549],
-                         12: [109.5210414692279, 109.5210414692279, 109.5210414692279]}
+    proposed_clustering_costs = {4 :[23443.528627308213, 23443.528627308213, 23443.528627308213], 
+                                 6: [8665.320820637857, 8665.320820637857, 8665.320820637857], 
+                                 8: [1481.9830313828543, 1481.9830313828543, 1481.9830313828543], 
+                                 10: [1063.145425272224, 1434.608495500635, 1062.966680372892], 
+                                 12: [1030.73445944251, 1030.73445944251, 1030.73445944251]}
     
-    proposed_clustering_avg_costs = [[4, 15757.995125725116], [6, 4826.341894457121], 
-                                    [8, 508.8589729958238], [10, 136.2003042903549], 
-                                    [12, 109.5210414692279]]
+    proposed_clustering_avg_costs = [[4, 23443.528627308213], [6, 8665.320820637857], 
+                                     [8, 1481.9830313828543], [10, 1186.9068670485835], 
+                                     [12, 1030.73445944251]]
     
     # plot_clustering(random_clustering_avg_costs)
     # plot_clustering(proposed_clustering_avg_costs)
-    plot_centers(cluster_centers, simplified_pts_dict)
+    # plot_centers(cluster_centers, simplified_pts_dict)
