@@ -189,7 +189,12 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         num_iter += 1
         if previous_cost - current_cost < 10:
             changed = False
-        previous_cost = current_cost   
+        previous_cost = current_cost
+    center_plot_cluster = []
+    for x in clusters_dict:
+         center_plot_cluster.append(cluster_centers[x])
+    print(cluster_centers)
+    print(center_plot_cluster)
     return current_cost
        
 def reassignment(traj_dict, cluster_centers, clusters_dict):
@@ -216,10 +221,72 @@ def simplify_pts(pts_dict, e):
         simplified_pts_dict[key] = sim_traj
     return simplified_pts_dict
     
+def plot_clustering(avg_cost):
+    k = [4,6,8,10,12]
+    costs = []
+    # plot trajectories
+    for i in range(len(k)):
+        y = avg_cost[i][1]
+        costs.append(y)
+        
+    plt.plot(k, costs, linewidth = 0.75, label = "cost", color='red', marker='o')
+
+    # show legend and add to figure
+    plt.legend(fontsize="8")
+    plt.title("GeoLife Average Clustering Costs - Proposed")
+    plt.xlabel("K values")
+    plt.ylabel("Avgerage Clustering Costs")
+    
+    plt.show()
+    
+def plot_iterations(avg_cost):
+    k = [4,6,8,10,12]
+    costs = []
+    # plot trajectories
+    for i in range(len(k)):
+        y = avg_cost[i][1]
+        costs.append(y)
+        
+    plt.plot(k, costs, linewidth = 0.75, label = "cost", color='red', marker='o')
+
+    # show legend and add to figure
+    plt.legend(fontsize="8")
+    plt.xlabel('Iteration')
+    plt.ylabel('Average cost of clustering')
+    plt.title('Comparison of seeding methods for k=8')
+    plt.legend()
+    plt.show()
+    
+    plt.show()
+    
+def plot_centers(trajectories, pts_dict):
+    # plot trajectories
+    count = 0
+    colors = ['red', 'green', 'blue', 'black', 'pink', 'orange', 'brown', 'purple']
+    
+    for traj in trajectories:
+        x = [pt[0] for pt in pts_dict[traj]]
+        y = [pt[1] for pt in pts_dict[traj]]
+        plt.plot(x, y, linewidth = 0.75, label=traj, color = colors[count])
+        count += 1
+
+
+    # show legend and add to figure
+    plt.legend(fontsize="8")
+    plt.title("GeoLife Trajectory Centering with Proposed Seeding")
+    plt.xlabel("Longitude (in km)")
+    plt.ylabel("Latitude (in km)")
+
+    # show the figure
+    plt.show()
+    
+    
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
     simplified_pts_dict = simplify_pts(pts_dict, 0.8)
+    cluster_centers = ['115-20080621218494', '128-20081023013657', '010-20081012234529', '153-20080712125122', '128-20080717130705', '163-20080704145434', '115-20080611231533', '115-20080514225734']
+    
     
     # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
     # Evaluate the cost three times for each value of k, and report the average
@@ -266,3 +333,7 @@ if __name__ == "__main__":
     proposed_clustering_avg_costs = [[4, 15757.995125725116], [6, 4826.341894457121], 
                                     [8, 508.8589729958238], [10, 136.2003042903549], 
                                     [12, 109.5210414692279]]
+    
+    # plot_clustering(random_clustering_avg_costs)
+    # plot_clustering(proposed_clustering_avg_costs)
+    plot_centers(cluster_centers, simplified_pts_dict)
