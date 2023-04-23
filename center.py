@@ -41,8 +41,8 @@ def center_approach_1(trajectories, pts_dict):
         if sum < m:
             m = sum
             min_traj = trajOne
-    # avg_cost = m/len(trajectories)
-    return min_traj, m
+    avg_cost = m/len(trajectories)
+    return min_traj, avg_cost
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a
 # function that computes an average of these functions
@@ -66,26 +66,31 @@ def center_approach_2(trajectories, pts_dict):
     for traj in trajectories:
         dist, matrix = dtw(center_traj, pts_dict[traj])
         cost += dist
-    # avg_cost = cost/len(trajectories)
+    avg_cost = cost/len(trajectories)
     # print(avg_cost)
-    return center_traj, cost
+    return center_traj, avg_cost
 
 # helper function to graph the trajectories, including the center trajectory
-def plot_centering(trajectories, pts_dict, center):
+def plot_centering(trajectories, pts_dict, center1, center2):
     # plot trajectories
     for traj in trajectories:
         x = [pt[0] for pt in pts_dict[traj]]
         y = [pt[1] for pt in pts_dict[traj]]
         plt.plot(x, y, linewidth = 0.75, label=traj, color = 'black')
 
-    # plot center trajectory
-    x = [pt[0] for pt in center]
-    y = [pt[1] for pt in center]
-    plt.plot(x, y, linestyle = 'dashed', linewidth = 2, label='center', color = 'blue')
+    # plot center1 trajectory
+    x = [pt[0] for pt in center1]
+    y = [pt[1] for pt in center1]
+    plt.plot(x, y, linestyle = 'dashed', linewidth = 1.75, label='approach 1: center', color = '#30D5C8')
+    
+    # plot center2 trajectory
+    x = [pt[0] for pt in center2]
+    y = [pt[1] for pt in center2]
+    plt.plot(x, y, linestyle = 'dashed', linewidth = 1.75, label='approach 2: center', color = 'green')
 
     # show legend and add to figure
     plt.legend(fontsize="8")
-    plt.title("GeoLife Trajectory Centering - Approach 2")
+    plt.title("GeoLife Trajectory Centering - Approach 1 & 2")
     plt.xlabel("Longitude (in km)")
     plt.ylabel("Latitude (in km)")
 
@@ -102,19 +107,23 @@ if __name__ == "__main__":
 
     # approach 1
     # center_traj_1, avg_cost = center_approach_1(trajectories, pts_dict)
+    # print(center_traj_1) # 115-20080707230001
+    # print(avg_cost) # 27.85670694006133
 
     # approach 1 simplifications
     # simplified_pts_dict_03 = simplify(pts_dict, 0.03)
     # simplified_pts_dict_1 = simplify(pts_dict, 0.1)
     # simplified_pts_dict_3 = simplify(pts_dict, 0.3)
-    # center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_1)
+    # center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_3)
+    # print(avg_cost)
 
     # plotting approach 1
     # plot_centering(trajectories, pts_dict, pts_dict[center_traj_1])
     
     # approach 2
-    # center_traj_2, cost = center_approach_2(trajectories, pts_dict)
+    center_traj_2, cost = center_approach_2(trajectories, pts_dict)
+    print(cost)
     
     # plotting approach 2
-    # plot_centering(trajectories, pts_dict, center_traj_2)
+    plot_centering(trajectories, pts_dict, pts_dict['115-20080707230001'], center_traj_2)
     
