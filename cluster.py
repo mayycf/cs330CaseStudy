@@ -187,6 +187,9 @@ if __name__ == "__main__":
     simplified_pts_dict = simplify_pts(pts_dict, 0.8)
     cluster_centers = ['115-20080621218494', '128-20081023013657', '010-20081012234529', '153-20080712125122', '128-20080717130705', '163-20080704145434', '115-20080611231533', '115-20080514225734']
     
+    # proposed seeding, k = 8, epsilon = 0.2
+    # cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
+    
     ### RANDOM SEEDING ###
     # print("cost with k = 4 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
     # print("cost with k = 6 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
