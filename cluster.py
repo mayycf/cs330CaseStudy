@@ -229,11 +229,11 @@ if __name__ == "__main__":
     # print("cost with k = 6 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
     # print("cost with k = 8 & random seeding")
-    print(lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
+    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
     # print("cost with k = 10 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
     # print("cost with k = 12 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
+    print(lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
     
     random_clustering_costs = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
                          6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
