@@ -63,8 +63,6 @@ def proposed_seeding(traj_dict, k):
             if dist < traj_centroid_dist[traj_key]:
                 traj_centroid_dist[traj_key] = dist
 
-    print("clusters: ", cluster_centers)
-
     # reassignment populates clusters_dict with the trajectories that should be in each cluster    
     previous_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
     return clusters_dict, previous_cost
@@ -75,10 +73,10 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         previous_cost = 10000000
     elif seed_method == "proposed":
         clusters_dict, previous_cost = proposed_seeding(traj_dict, k)
+        print(previous_cost)
     # cluster_centers = [] -> array of traj ids to store the center trajectory for each cluster
     cluster_centers = [None for i in range(k)]
         
-    print(previous_cost)
     num_iter = 0
     changed = True
     while num_iter < t_max and changed:
@@ -91,7 +89,7 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         current_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
         print(current_cost)
         num_iter += 1
-        if previous_cost - current_cost < 10:
+        if previous_cost - current_cost < 10:  
             changed = False
         previous_cost = current_cost   
     return current_cost
@@ -122,13 +120,13 @@ def simplify_pts(pts_dict, e):
     
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
-    pts_dict = get_points('geolife-cars-upd8.csv')
-    simplified_pts_dict = simplify_pts(pts_dict, 0.8)
+    # pts_dict = get_points('geolife-cars-upd8.csv')
+    # simplified_pts_dict = simplify_pts(pts_dict, 0.2)
     
     # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
     # Evaluate the cost three times for each value of k, and report the average
     
-    print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
+    # print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
     # print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
     # print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
     # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
@@ -154,6 +152,15 @@ if __name__ == "__main__":
                                    [8, 14998.605226541089], [10, 14757.469224473343], 
                                    [12, 14729.905559962412]]
     
-    proposed_clustering_costs = {}
+    proposed_clustering_costs = {4 :[23443.528627308213, 23443.528627308213, 23443.528627308213], 
+                                 6: [8665.320820637857, 8665.320820637857, 8665.320820637857], 
+                                 8: [1481.9830313828543, 1481.9830313828543, 1481.9830313828543], 
+                                 10: [1063.145425272224, 1434.608495500635, 1062.966680372892], 
+                                 12: [1030.73445944251, 1030.73445944251, 1030.73445944251]}
     
-    proposed_clustering_avg_costs = []
+    proposed_clustering_avg_costs = [[4, 23443.528627308213], [6, 8665.320820637857], 
+                                     [8, 1481.9830313828543], [10, 1186.9068670485835], 
+                                     [12, 1030.73445944251]]
+
+    
+    
