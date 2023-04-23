@@ -225,11 +225,11 @@ if __name__ == "__main__":
     # Evaluate the cost three times for each value of k, and report the average
     
     # print("cost with k = 4 & random seeding")
-    print(lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
+    # print(lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
     # print("cost with k = 6 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
     # print("cost with k = 8 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "random"))
+    print(lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
     # print("cost with k = 10 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
     # print("cost with k = 12 & random seeding")
