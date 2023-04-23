@@ -34,103 +34,6 @@ def random_seeding(traj_dict, k):
 
     return clusters_dict
 
-# # input: traj_dict -> key = traj id, value = array of points in that trajectory
-# def proposed_seeding(traj_dict, k):
-#     # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
-#     traj_list = [key for key in traj_dict]
-#     # clusters_dict = dict() -> key = integer (0, ..., k-1), value = array of traj ids in that cluster
-#     clusters_dict = dict()
-#     for i in range(k):
-#         clusters_dict[i] = []
-#     # keep track of traj ids that will serve as the cluster centers
-#     cluster_centers = []
-    
-#     # first center, randomly selected
-#     c1 = random.randint(0, len(traj_list) - 1)
-#     cluster_centers.append(traj_list[c1])
-
-#     # select all other centers
-#     for i in range(k-1):
-#         max_d = 0     # maximum distance from a point to a centroid
-#         max_traj = 0    # max traj key, max associated cluster
-#         for num in range(len(cluster_centers)):
-#             for traj_key in traj_list:
-#                 dist, matrix = dtw(traj_dict[cluster_centers[num]], traj_dict[traj_key])
-#                 if dist > max_d:
-#                     max_d = dist
-#                     max_traj = traj_key
-
-#         cluster_centers.append(max_traj)
-
-#     # print("clusters: ", cluster_centers)
-
-#     # reassignment populates clusters_dict with the trajectories that should be in each cluster    
-#     reassignment(traj_dict, cluster_centers, clusters_dict)
-#     return clusters_dict
-
-# def proposed_seeding2(traj_dict, k):
-#     # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
-#     traj_list = [key for key in traj_dict]
-#     # clusters_dict = dict() -> key = integer (0, ..., k-1), value = set of traj ids in that cluster
-#     clusters_dict = dict()
-#     # as you find centers using k-means++, append them to the cluster_centers array
-#     cluster_centers = []
-    
-#     # first center
-#     c1 = random.randint(0, len(traj_list) - 1)
-#     cluster_centers.append(traj_list[c1])
-#     clusters_dict[traj_list[c1]] = []
-#     # select all other centers
-#     # for each data point, we need to calculate its closest centroid. 
-#     # Then for each of these distances, choose the largest one as the next centroid until we reach k centroids.
-#     for i in range(k-1):
-#           # maximum distance from a point to a centroid
-#         max_traj = 0    # max traj key, max associated cluster
-#         next_center = 0
-#         # for each cluster center? 
-#         for cluster_key in clusters_dict:
-#             clusters_dict[cluster_key] = []
-            
-#         # reassign each trajectory to a cluster
-#         for traj_key in traj_dict:
-#             cluster = -1
-#             min_dist = 10000000
-#             for num in range(len(cluster_centers)):
-#                 dist, matrix = dtw(traj_dict[cluster_centers[num]], traj_dict[traj_key])
-#                 if dist <= min_dist:
-#                     cluster = cluster_centers[num]
-#                     min_dist = dist
-#             if min_dist >= max_traj:
-#                 max_traj = min_dist
-#                 next_center = traj_key
-#             # print("cluster!!!!", cluster)
-#             clusters_dict[cluster].append(traj_key)
-        
-#         cluster_centers.append(next_center)
-#         clusters_dict[next_center] = []   
-
-#     # print("clusters: ", cluster_centers)
-#     # as you find each center, append the traj_id to cluster_centers[]
-#     # after finding the k cluster centers, call reassignment to populate clusters_dict with 
-#     # the trajectories that should be in each cluster    
-#     for cluster_key in clusters_dict:
-#             clusters_dict[cluster_key] = []
-            
-#     for traj_key in traj_dict:
-#             cluster = -1
-#             min_dist = 10000000
-#             for num in range(len(cluster_centers)):
-#                 dist, matrix = dtw(traj_dict[cluster_centers[num]], traj_dict[traj_key])
-#                 if dist <= min_dist:
-#                     cluster = cluster_centers[num]
-#                     min_dist = dist
-#             if min_dist >= max_traj:
-#                 max_traj = min_dist
-#                 next_center = traj_key
-#             clusters_dict[cluster].append(traj_key)
-#     # min_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
-#     return clusters_dict
-
 # input: traj_dict -> key = traj id, value = array of points in that trajectory
 def proposed_seeding(traj_dict, k):
     # traj_list - list of trajectories by traj id (i.e. "115-20080527225031")
@@ -160,11 +63,9 @@ def proposed_seeding(traj_dict, k):
             if dist < traj_centroid_dist[traj_key]:
                 traj_centroid_dist[traj_key] = dist
 
-    # print("clusters: ", cluster_centers)
-
     # reassignment populates clusters_dict with the trajectories that should be in each cluster    
-    reassignment(traj_dict, cluster_centers, clusters_dict)
-    return clusters_dict
+    previous_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
+    return clusters_dict, previous_cost
 
 def lloyds_algorithm(traj_dict, k, t_max, seed_method): 
     if seed_method == "random":
