@@ -92,6 +92,7 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         if previous_cost - current_cost < 10:  
             changed = False
         previous_cost = current_cost   
+    print(cluster_centers)
     return current_cost
        
 def reassignment(traj_dict, cluster_centers, clusters_dict):
@@ -120,8 +121,8 @@ def simplify_pts(pts_dict, e):
     
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
-    # pts_dict = get_points('geolife-cars-upd8.csv')
-    # simplified_pts_dict = simplify_pts(pts_dict, 0.2)
+    pts_dict = get_points('geolife-cars-upd8.csv')
+    simplified_pts_dict = simplify_pts(pts_dict, 0.2)
     
     # Evaluate the cost of clustering for k = 4,6,8,10,12 for the random and the proposed seeding methods
     # Evaluate the cost three times for each value of k, and report the average
@@ -132,7 +133,7 @@ if __name__ == "__main__":
     # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
     # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
     # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
-    # print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
+    print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
     # print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
     # print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
     # print("cost with k = 10 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
