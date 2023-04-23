@@ -229,7 +229,7 @@ if __name__ == "__main__":
     # print("cost with k = 6 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
     # print("cost with k = 8 & random seeding")
-    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "random"))
+    # print(lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
     # print("cost with k = 10 & random seeding")
     # print(lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
     # print("cost with k = 12 & random seeding")
