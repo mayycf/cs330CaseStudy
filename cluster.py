@@ -1,7 +1,7 @@
 import math, csv, random
 import matplotlib.pyplot as plt
 import matplotlib
-from dtw import dtw
+from dtw import dtw, computeOptimalPath
 from tsGreedy import ts_greedy
 from center import center_approach_1
 
@@ -108,9 +108,11 @@ def reassignment(traj_dict, cluster_centers, clusters_dict):
         min_dist = 10000000
         for num in range(len(cluster_centers)):
             dist, matrix = dtw(traj_dict[cluster_centers[num]], traj_dict[traj_key])
-            if dist <= min_dist:
+            assignment, histogram_input = computeOptimalPath(matrix, traj_dict[cluster_centers[num]], traj_dict[traj_key])
+            distance = math.sqrt(dist/len(assignment))
+            if distance <= min_dist:
                 cluster = num
-                min_dist = dist
+                min_dist = distance
         clusters_dict[cluster].append(traj_key)
         cost += min_dist
     return cost
@@ -165,7 +167,7 @@ def plot_iterations(avg_cost):
     plt.legend(fontsize="8")
     plt.xlabel('Iteration')
     plt.ylabel('Average cost of clustering')
-    plt.title('Comparison of seeding methods for k=8')
+    plt.title('Average Cost of Clustering Over Iterations with k=8 - Proposed Seeding')
     plt.legend()
     plt.show()
     
@@ -194,7 +196,7 @@ def plot_centers(trajectories, pts_dict):
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    # simplified_pts_dict = simplify_pts(pts_dict, 0.2)
+    simplified_pts_dict = simplify_pts(pts_dict, 0.2)
     
     # proposed seeding, k = 8, epsilon = 0.2
     cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
@@ -213,48 +215,50 @@ if __name__ == "__main__":
     # print("cost with k = 10 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
     # print("cost with k = 12 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
     
-    random_clustering_costs = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
-                         6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
-                         8: [14833.551955813587, 15370.178408613201, 14792.085315196475],
-                         10: [14787.456677584803, 14696.415594061898, 14788.535401773328],
-                         12: [14780.98240174656, 14739.241300043663, 14669.49297809701]}
+    random_clustering_costs = {4: [1385.8662908176066, 1374.4261225016078, 1367.2171332892922],
+                         6: [1368.5669290445742, 1361.6228691128626, 1362.1765400571962],
+                         8: [1358.9005768503694, 1359.01993380758, 1346.311433033083],
+                         10: [1344.091815944868, 1342.0209605943817, 1338.1736834488881],
+                         12: [1335.3650102681445, 1342.4478466953378, 1342.8198562545997]}
     
-    random_clustering_avg_costs = [[4, 36574.540624951806], [6, 19181.509964732013], 
-                                   [8, 14998.605226541089], [10, 14757.469224473343], 
-                                   [12, 14729.905559962412]]
+    random_clustering_avg_costs = [[4, 1375.836515536169], [6, 1364.122112738211], 
+                                   [8, 1354.743981230344], [10, 1341.4288199960458], 
+                                   [12, 1340.2109044060273]]
     
-    proposed_clustering_costs = {4 :[23443.528627308213, 23443.528627308213, 23443.528627308213], 
-                                 6: [8665.320820637857, 8665.320820637857, 8665.320820637857], 
-                                 8: [1481.9830313828543, 1481.9830313828543, 1481.9830313828543], 
-                                 10: [1063.145425272224, 1434.608495500635, 1062.966680372892], 
-                                 12: [1030.73445944251, 1030.73445944251, 1030.73445944251]}
+    proposed_clustering_costs = {4 :[604.9894406726208, 604.9894406726208, 604.9894406726208], 
+                                 6: [376.5999558706342, 376.5999558706342, 376.5999558706342], 
+                                 8: [286.8021826780779, 286.8021826780779, 286.8021826780779], 
+                                 10: [283.6776173914242, 283.6776173914242, 283.6776173914242], 
+                                 12: [236.77198753337703, 236.77198753337703, 236.77198753337703]}
     
-    proposed_clustering_avg_costs = [[4, 23443.528627308213], [6, 8665.320820637857], 
-                                     [8, 1481.9830313828543], [10, 1186.9068670485835], 
-                                     [12, 1030.73445944251]]
+    proposed_clustering_avg_costs = [[4, 604.9894406726208], [6, 376.5999558706342], 
+                                     [8, 286.8021826780779], [10, 283.6776173914242], 
+                                     [12, 236.77198753337703]]
     
     # let random_cost_it and proposed_cost_it be the matrices of the cost of clustering such that 
     # matrix[i][j] represents the cost of clustering in the ith run of Lloyd’s algorithm for jth iteration
     
-    random_cost_it = [  [132424.86063889405, 132424.25214825838, 132409.66065464745],
-                        [15455.728291958487, 15524.011679553181, 14927.859591719749],
-                        [14851.559098017407, 15377.954001121601, 14792.085315196475],
-                        [14838.436015882378, 15370.178408613201, 14792.085315196475],
-                        [14833.551955813587, 15370.178408613201, 14792.085315196475]]
+    random_cost_it = [  [1512.9484669348708, 1514.5984505297158, 1514.0825896081628],
+                        [1352.5928716366775, 1362.4144914408762, 1361.5022615484215],
+                        [1346.523431750786, 1359.1864389044963, 1359.106722065497],
+                        [1346.311433033083, 1358.9005768503694, 1359.01993380758],
+                        [1346.311433033083, 1358.9005768503694, 1359.01993380758]]
     
-    random_average_cost_it = [[1, 132419.591147], [2, 15302.5331877], [3, 15007.1994714],
-                              [4, 15000.2332466], [5, 14998.6052265]]
+    random_average_cost_it = [[1, 1513.8765023575834], [2, 1358.836541541992], 
+                              [3, 1354.9388642402598], [4, 1354.743981230344], 
+                              [5, 1354.743981230344]]
     
-    proposed_cost_it = [    [2104.59344517931, 2184.707194847631, 2112.557579884904],
-                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
-                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
-                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
-                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543]]
+    proposed_cost_it = [    [321.23064779367456, 332.9036323812487, 341.36424834986354],
+                            [286.8021826780779, 286.8021826780779, 286.8021826780779],
+                            [286.8021826780779, 286.8021826780779, 286.8021826780779],
+                            [286.8021826780779, 286.8021826780779, 286.8021826780779],
+                            [286.8021826780779, 286.8021826780779, 286.8021826780779]]
 
-    proposed_average_cost_it = [[1, 2133.95273997], [2, 1481.98303138], [3, 1481.98303138],
-                              [4, 1481.98303138], [5, 1481.98303138]]
+    proposed_average_cost_it = [[1, 331.83284284159566], [2, 286.8021826780779], 
+                                [3, 286.8021826780779], [4, 286.8021826780779], 
+                                [5, 286.8021826780779]]
 
     # plot_clustering(random_clustering_avg_costs, proposed_clustering_avg_costs)
     # plot_iterations(random_average_cost_it)
     # plot_iterations(proposed_average_cost_it)
-    plot_centers(cluster_centers, pts_dict)
+    # plot_centers(cluster_centers, pts_dict)
