@@ -37,12 +37,14 @@ def center_approach_1(trajectories, pts_dict):
         for trajTwo in trajectories:
             if trajOne != trajTwo:
                 distance, matrix = dtw(pts_dict[trajOne], pts_dict[trajTwo])
-                sum += distance
+                assignment, histogram_input = computeOptimalPath(matrix, pts_dict[trajOne], pts_dict[trajTwo])
+                sum += math.sqrt(distance/len(assignment))
         if sum < m:
             m = sum
             min_traj = trajOne
-    # avg_cost = m/len(trajectories)
-    return min_traj, m
+    avg_cost = m/len(trajectories)
+    print(avg_cost)
+    return min_traj, avg_cost
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a
 # function that computes an average of these functions
@@ -65,10 +67,11 @@ def center_approach_2(trajectories, pts_dict):
     cost = 0
     for traj in trajectories:
         dist, matrix = dtw(center_traj, pts_dict[traj])
-        cost += dist
-    # avg_cost = cost/len(trajectories)
-    # print(avg_cost)
-    return center_traj, cost
+        assignment, histogram_input = computeOptimalPath(matrix, center_traj, pts_dict[traj])
+        cost += math.sqrt(dist/len(assignment))
+    avg_cost = cost/len(trajectories)
+    print(avg_cost)
+    return center_traj, avg_cost
 
 # helper function to graph the trajectories, including the center trajectory
 def plot_centering(trajectories, pts_dict, center):
@@ -104,10 +107,12 @@ if __name__ == "__main__":
     # center_traj_1, avg_cost = center_approach_1(trajectories, pts_dict)
 
     # approach 1 simplifications
-    # simplified_pts_dict_03 = simplify(pts_dict, 0.03)
-    # simplified_pts_dict_1 = simplify(pts_dict, 0.1)
-    # simplified_pts_dict_3 = simplify(pts_dict, 0.3)
-    # center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_1)
+    simplified_pts_dict_03 = simplify(pts_dict, 0.03)
+    center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_03)
+    simplified_pts_dict_1 = simplify(pts_dict, 0.1)
+    center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_1)
+    simplified_pts_dict_3 = simplify(pts_dict, 0.3)
+    center_traj_1, avg_cost = center_approach_1(trajectories, simplified_pts_dict_3)
 
     # plotting approach 1
     # plot_centering(trajectories, pts_dict, pts_dict[center_traj_1])
