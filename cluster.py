@@ -89,7 +89,7 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         current_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
         print(current_cost)
         num_iter += 1
-        if previous_cost - current_cost < 5:
+        if previous_cost - current_cost < 2:
             changed = False
         previous_cost = current_cost
     center_plot_cluster = []
