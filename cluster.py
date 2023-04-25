@@ -129,7 +129,6 @@ def plot_clustering(random_avg_cost, proposed_avg_cost):
     # plot trajectories
     for i in range(len(k)):
         y = random_avg_cost[i][1]
-<<<<<<< HEAD
         costs.append(y)
         
     plt.plot(k, costs, linewidth = 0.75, label = "random seeding", color='red', marker='o')
@@ -140,18 +139,6 @@ def plot_clustering(random_avg_cost, proposed_avg_cost):
         y = proposed_avg_cost[i][1]
         costs.append(y)
         
-=======
-        costs.append(y)
-        
-    plt.plot(k, costs, linewidth = 0.75, label = "random seeding", color='red', marker='o')
-    
-    costs = []
-    # plot trajectories
-    for i in range(len(k)):
-        y = proposed_avg_cost[i][1]
-        costs.append(y)
-        
->>>>>>> a5ba062104c1400bc9cab734fee0be35a549a65a
     plt.plot(k, costs, linewidth = 0.75, label = "proposed seeding", color='blue', marker='o')
 
 
