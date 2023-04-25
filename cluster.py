@@ -202,13 +202,18 @@ if __name__ == "__main__":
     cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
     
     ### RANDOM SEEDING ###
-    print("cost with k = 4 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
-    print("cost with k = 6 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
-    print("cost with k = 8 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "random"))
-    print("cost with k = 10 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
-    print("cost with k = 12 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
+    # print("cost with k = 4 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
+    # print("cost with k = 6 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
+    # print("cost with k = 8 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "random"))
+    # print("cost with k = 10 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "random"))
+    # print("cost with k = 12 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
 
-    ### PROPOSED SEEDING ###
+    ### PROPOSED SEEDING ### 
+    print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
+    print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
+    print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
+    print("cost with k = 10 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
+    print("cost with k = 12 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
     # print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
     # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
     # print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
@@ -270,7 +275,7 @@ if __name__ == "__main__":
     
     proposed_clustering_costs_sqrt = {4: [153.11279707231597, 153.11279707231597, 153.11279707231597], 
                                       6: [93.08770499178641, 93.08770499178641, 93.08770499178641], 
-                                      8: [38.49653271897164, 38.49653271897164, 38.49653271897164], 
+                                      8: [38.496532718971, 38.49653271897164, 38.49653271897164], 
                                       10: [32.60591089468632, 37.87622599336733, 32.60316979026567], 
                                       12: [32.10505348761328, 32.10505348761328, 32.10505348761328]}
     
