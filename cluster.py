@@ -129,6 +129,7 @@ def plot_clustering(random_avg_cost, proposed_avg_cost):
     # plot trajectories
     for i in range(len(k)):
         y = random_avg_cost[i][1]
+<<<<<<< HEAD
         costs.append(y)
         
     plt.plot(k, costs, linewidth = 0.75, label = "random seeding", color='red', marker='o')
@@ -139,6 +140,18 @@ def plot_clustering(random_avg_cost, proposed_avg_cost):
         y = proposed_avg_cost[i][1]
         costs.append(y)
         
+=======
+        costs.append(y)
+        
+    plt.plot(k, costs, linewidth = 0.75, label = "random seeding", color='red', marker='o')
+    
+    costs = []
+    # plot trajectories
+    for i in range(len(k)):
+        y = proposed_avg_cost[i][1]
+        costs.append(y)
+        
+>>>>>>> a5ba062104c1400bc9cab734fee0be35a549a65a
     plt.plot(k, costs, linewidth = 0.75, label = "proposed seeding", color='blue', marker='o')
 
 
@@ -184,7 +197,7 @@ def plot_centers(trajectories, pts_dict):
         
     # show legend and add to figure
     plt.legend(fontsize="8")
-    plt.title("GeoLife Trajectory Centering with Proposed Seeding")
+    plt.title("Center Trajectories with Proposed Seeding and k = 8")
     plt.xlabel("Longitude (in km)")
     plt.ylabel("Latitude (in km)")
 
@@ -193,9 +206,8 @@ def plot_centers(trajectories, pts_dict):
     
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
-    # pts_dict = get_points('geolife-cars-upd8.csv')
+    pts_dict = get_points('geolife-cars-upd8.csv')
     # simplified_pts_dict = simplify_pts(pts_dict, 0.2)
-    # cluster_centers = ['115-20080621218494', '128-20081023013657', '010-20081012234529', '153-20080712125122', '128-20080717130705', '163-20080704145434', '115-20080611231533', '115-20080514225734']
     
     # proposed seeding, k = 8, epsilon = 0.2
     cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
@@ -234,18 +246,23 @@ if __name__ == "__main__":
                                      [8, 1481.9830313828543], [10, 1186.9068670485835], 
                                      [12, 1030.73445944251]]
     
-    random_k8_cost = {1: [132424.86063889405, 132424.25214825838, 132409.66065464745],
-                              2: [15455.728291958487, 15524.011679553181, 14927.859591719749],
-                              3: [14851.559098017407, 15377.954001121601, 14792.085315196475],
-                              4: [14838.436015882378, 15370.178408613201, 14792.085315196475],
-                              5: [14833.551955813587]}
+    # let random_cost_it and proposed_cost_it be the matrices of the cost of clustering such that 
+    # matrix[i][j] represents the cost of clustering in the ith run of Lloyd’s algorithm for jth iteration
+    
+    random_cost_it = [  [132424.86063889405, 132424.25214825838, 132409.66065464745],
+                        [15455.728291958487, 15524.011679553181, 14927.859591719749],
+                        [14851.559098017407, 15377.954001121601, 14792.085315196475],
+                        [14838.436015882378, 15370.178408613201, 14792.085315196475],
+                        [14833.551955813587, 15370.178408613201, 14792.085315196475]]
     
     random_average_cost_it = [[1, 132419.591147], [2, 15302.5331877], [3, 15007.1994714],
                               [4, 15000.2332466], [5, 14998.6052265]]
     
-    proposed_k8_cost = {1: [2104.59344517931, 2184.707194847631, 2112.557579884904],
-                                2: [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
-                                3: [1481.9830313828543, 1481.9830313828543, 1481.9830313828543]}
+    proposed_cost_it = [    [2104.59344517931, 2184.707194847631, 2112.557579884904],
+                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
+                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
+                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543],
+                            [1481.9830313828543, 1481.9830313828543, 1481.9830313828543]]
 
     proposed_average_cost_it = [[1, 2133.95273997], [2, 1481.98303138], [3, 1481.98303138],
                               [4, 1481.98303138], [5, 1481.98303138]]
@@ -290,9 +307,7 @@ if __name__ == "__main__":
                                  [3, 38.49653271897164], [4, 38.49653271897164],
                                  [5, 38.49653271897164]]
 
-    # plot_iterations(random_k8_sqrt_avg_cost)
-    # plot_iterations(proposed_k8_sqrt_avg_cost)
-    # plot_clustering(random_clustering_sqrt_avg_costs, proposed_clustering_sqrt_avg_costs)
-    # plot_clustering(proposed_clustering_avg_costs)
-    # plot_centers(cluster_centers, simplified_pts_dict)
-    # plot_centering(simplified_pts_dict)
+    # plot_clustering(random_clustering_avg_costs, proposed_clustering_avg_costs)
+    # plot_iterations(random_average_cost_it)
+    # plot_iterations(proposed_average_cost_it)
+    plot_centers(cluster_centers, pts_dict)
