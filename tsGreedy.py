@@ -31,7 +31,7 @@ def ts_greedy(T,e):
 # helper function that parces the GeoLife file to find the trajectory of interest
 def getPoints(x):
     points = []
-    with open("geolife-cars.csv", newline='') as csvfile:
+    with open("geolife-cars-upd8.csv", newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if(row['id_'] == x):
@@ -74,20 +74,6 @@ def plotit(T, e):
     plt.show()
 
 if __name__ == "__main__" :
-    T = getPoints("128-20080503104400")
-    e = 0.3
-    # T = getPoints("010-20081016113953")
-    # e = 0.03
-    # T = getPoints("115-20080520225850")
-    # e = 0.03
-    # T = getPoints("115-20080615225707")
-    # e = 0.03
-
+    T = getPoints("115-20080527225031")
+    e = 0.1
     plotit(T, e) 
-    # print("These are the simplification results:", ts_greedy(T,e))
-    
-    # TESTS:
-    # "128-20080503104400" e = 0, 319 points
-    # "128-20080503104400" e = .03, 18 points 
-    # "128-20080503104400" e = .1, 14 points 
-    # "128-20080503104400" e = .3, 5 points
