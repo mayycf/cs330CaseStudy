@@ -105,22 +105,26 @@ if __name__ == "__main__" :
     # inputs
     traj1 = getPoints('./geolife-cars.csv', '128-20080503104400')
     traj2 = getPoints('./geolife-cars.csv', '128-20080509135846')
-    traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
-    traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
-    traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
-    traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
+    # traj3 = getPoints('./geolife-cars.csv', '010-20081016113953')
+    # traj4 = getPoints('./geolife-cars.csv', '010-20080923124453')
+    # traj5 = getPoints('./geolife-cars.csv', '115-20080520225850')
+    # traj6 = getPoints('./geolife-cars.csv', '115-20080615225707')
+    
+    dist, matrix = dtw(traj1, traj2)
+    print(dist)
+    print(dist/452)
 
     # # simplified by 0.03
-    simtraj503 = ts_greedy(traj5, 0.03)
-    simtraj603 = ts_greedy(traj6, 0.03)
+    # simtraj503 = ts_greedy(traj5, 0.03)
+    # simtraj603 = ts_greedy(traj6, 0.03)
 
     # # simplified by 0.1 
-    simtraj51 = ts_greedy(traj5, 0.1)
-    simtraj61 = ts_greedy(traj6, 0.1)
+    # simtraj51 = ts_greedy(traj5, 0.1)
+    # simtraj61 = ts_greedy(traj6, 0.1)
 
     # # simplified by 0.3 
-    simtraj53 = ts_greedy(traj5, 0.3)
-    simtraj63 = ts_greedy(traj6, 0.3)
+    # simtraj53 = ts_greedy(traj5, 0.3)
+    # simtraj63 = ts_greedy(traj6, 0.3)
 
     ###### DTW DISTANCE HISTOGRAMS ######
     

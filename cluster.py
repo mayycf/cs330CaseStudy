@@ -1,7 +1,7 @@
 import math, csv, random
 import matplotlib.pyplot as plt
 import matplotlib
-from dtw import dtw
+from dtw import dtw, computeOptimalPath
 from tsGreedy import ts_greedy
 from center import center_approach_1
 
@@ -87,16 +87,16 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         # assign each trajectory to the cluster whose center trajectory is closest
         # find the current_cost of that clustering
         current_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
-        # print(current_cost)
+        print(current_cost)
         num_iter += 1
-        if previous_cost - current_cost < 10:
+        if previous_cost - current_cost < 5:
             changed = False
         previous_cost = current_cost
     center_plot_cluster = []
     for x in clusters_dict:
          center_plot_cluster.append(cluster_centers[x])
-    print(cluster_centers)
-    print(center_plot_cluster)
+    # print(cluster_centers)
+    # print(center_plot_cluster)
     return current_cost
        
 def reassignment(traj_dict, cluster_centers, clusters_dict):
@@ -108,9 +108,11 @@ def reassignment(traj_dict, cluster_centers, clusters_dict):
         min_dist = 10000000
         for num in range(len(cluster_centers)):
             dist, matrix = dtw(traj_dict[cluster_centers[num]], traj_dict[traj_key])
-            if dist <= min_dist:
+            assignment, histogram_input = computeOptimalPath(matrix, traj_dict[cluster_centers[num]], traj_dict[traj_key])
+            distance = math.sqrt(dist/len(assignment))
+            if distance <= min_dist:
                 cluster = num
-                min_dist = dist
+                min_dist = distance
         clusters_dict[cluster].append(traj_key)
         cost += min_dist
     return cost
@@ -194,7 +196,7 @@ def plot_centers(trajectories, pts_dict):
 if __name__ == "__main__": 
     # dictionary with trajectory id as the key and arrays of pts as the value
     pts_dict = get_points('geolife-cars-upd8.csv')
-    # simplified_pts_dict = simplify_pts(pts_dict, 0.2)
+    simplified_pts_dict = simplify_pts(pts_dict, 0.2)
     
     # proposed seeding, k = 8, epsilon = 0.2
     cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
@@ -207,11 +209,11 @@ if __name__ == "__main__":
     # print("cost with k = 12 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "random"))
 
     ### PROPOSED SEEDING ###
-    # print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
-    # print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
-    # print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
-    # print("cost with k = 10 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
-    # print("cost with k = 12 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
+    print("cost with k = 4 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "proposed"))
+    print("cost with k = 6 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "proposed"))
+    print("cost with k = 8 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 8, 5, "proposed"))
+    print("cost with k = 10 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 10, 5, "proposed"))
+    print("cost with k = 12 & proposed seeding: ", lloyds_algorithm(simplified_pts_dict, 12, 5, "proposed"))
     
     random_clustering_costs = {4: [38438.828109556445, 38438.828109556445, 32845.965655742526],
                          6: [26574.452578489625, 15481.756895123717, 15488.320420582688],
@@ -297,4 +299,4 @@ if __name__ == "__main__":
     # plot_clustering(random_clustering_avg_costs, proposed_clustering_avg_costs)
     # plot_iterations(random_average_cost_it)
     # plot_iterations(proposed_average_cost_it)
-    plot_centers(cluster_centers, pts_dict)
+    # plot_centers(cluster_centers, pts_dict)

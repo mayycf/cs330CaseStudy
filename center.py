@@ -43,7 +43,7 @@ def center_approach_1(trajectories, pts_dict):
             m = sum
             min_traj = trajOne
     avg_cost = m/len(trajectories)
-    print("Average Cost using Approach I: ", avg_cost)
+    # print("Average Cost using Approach I: ", avg_cost)
     return min_traj, avg_cost
 
 # Think of each trajectory Ti ∈ T as a function f(i) of time, and the goal is to compute a
@@ -70,7 +70,7 @@ def center_approach_2(trajectories, pts_dict):
         assignment, histogram_input = computeOptimalPath(matrix, center_traj, pts_dict[traj])
         cost += math.sqrt(dist/len(assignment))
     avg_cost = cost/len(trajectories)
-    print("Average Cost using Approach II: ", avg_cost)
+    # print("Average Cost using Approach II: ", avg_cost)
     return center_traj, avg_cost
 
 # helper function to graph the trajectories, including the center trajectory
