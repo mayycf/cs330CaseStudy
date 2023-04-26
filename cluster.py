@@ -89,7 +89,7 @@ def lloyds_algorithm(traj_dict, k, t_max, seed_method):
         current_cost = reassignment(traj_dict, cluster_centers, clusters_dict)
         # print(current_cost)
         num_iter += 1
-        if previous_cost - current_cost < 10:
+        if previous_cost - current_cost < 2:
             changed = False
         previous_cost = current_cost
     center_plot_cluster = []
@@ -199,8 +199,8 @@ if __name__ == "__main__":
     simplified_pts_dict = simplify_pts(pts_dict, 0.2)
     
     # proposed seeding, k = 8, epsilon = 0.2
-    cluster_centers = ['115-20080639682095', '128-20080517020041', '010-20081012234529', '128-20080704130347', '153-20080712125122', '163-20080704145434', '115-20080611231533', '115-20080508230928']
-    
+    cluster_centers = ['153-20080929141601', '115-20080611231533', '128-20080704130347', '128-20080517020041', '010-20081005235128', '163-20080428134620', '115-20080639197975', '115-20080508230928']
+
     ### RANDOM SEEDING ###
     # print("cost with k = 4 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 4, 5, "random"))
     # print("cost with k = 6 & random seeding: ", lloyds_algorithm(simplified_pts_dict, 6, 5, "random"))
@@ -258,7 +258,7 @@ if __name__ == "__main__":
                                 [3, 286.8021826780779], [4, 286.8021826780779], 
                                 [5, 286.8021826780779]]
 
-    # plot_clustering(random_clustering_avg_costs, proposed_clustering_avg_costs)
+    plot_clustering(random_clustering_avg_costs, proposed_clustering_avg_costs)
     # plot_iterations(random_average_cost_it)
     # plot_iterations(proposed_average_cost_it)
     # plot_centers(cluster_centers, pts_dict)
